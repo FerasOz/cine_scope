@@ -1,9 +1,12 @@
 import 'package:cine_scope/core/routing/routes.dart';
+import 'package:cine_scope/cubit/app_cubit.dart';
+import 'package:cine_scope/features/app_layout.dart';
 import 'package:cine_scope/features/details/details_screen.dart';
 import 'package:cine_scope/features/home/home_screen.dart';
 import 'package:cine_scope/features/search/search_screen.dart';
 import 'package:cine_scope/features/watch_list/watch_list_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppRouters {
   Route? onGenerateRoute(RouteSettings settings) {
@@ -16,6 +19,15 @@ class AppRouters {
         return MaterialPageRoute(builder: (_) => const SearchScreen());
       case Routes.watchListScreen:
         return MaterialPageRoute(builder: (_) => const WatchListScreen());
+      case Routes.appLayout:
+        return MaterialPageRoute(
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => AppCubit()),
+            ],
+            child: const AppLayout(),
+          ),
+        );
       default:
         return null;
     }
