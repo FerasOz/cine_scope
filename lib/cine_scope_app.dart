@@ -20,7 +20,7 @@ class CineScopeApp extends StatelessWidget {
         // theme: AppThemes.lightTheme,
         // darkTheme: AppThemes.darkTheme,
         onGenerateRoute: appRouters.onGenerateRoute,
-        initialRoute: Routes.homeScreen,
+        initialRoute: Routes.appLayout,
       ),
     );
   }
