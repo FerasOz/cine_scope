@@ -14,42 +14,72 @@ class FeaturedMovieCard extends StatelessWidget {
         child: Stack(
           children: [
             Image.network(
-              "https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg",
-              height: 220.h,
+              "https://image.tmdb.org/t/p/w780/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg",
+              height: 240.h,
               width: double.infinity,
               fit: BoxFit.cover,
             ),
             Container(
-              height: 220,
+              height: 240.h,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
-                  colors: [Colors.black.withOpacity(0.8), Colors.transparent],
+                  stops: const [0.0, 0.4, 1],
+                  colors: [
+                    Colors.black.withOpacity(0.85),
+                    Colors.black.withOpacity(0.35),
+                    Colors.transparent,
+                  ],
                 ),
               ),
             ),
+
             Positioned(
-              left: 16,
-              bottom: 16,
-              right: 16,
+              left: 16.w,
+              bottom: 16.h,
+              right: 16.w,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Spider-Man: No Way Home",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.bold,
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 4.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.redAccent,
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    child: Text(
+                      "Trending",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                   verticalSpace(8),
+                  Text(
+                    "Spider-Man: No Way Home",
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  verticalSpace(6),
                   Row(
                     children: [
-                      Icon(Icons.star, color: Colors.amber, size: 18),
+                      const Icon(Icons.star, color: Colors.amber, size: 18),
                       horizontalSpace(4),
-                      Text("8.9", style: TextStyle(color: Colors.white)),
+                      Text(
+                        "8.9",
+                        style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                      ),
                     ],
                   ),
                 ],
