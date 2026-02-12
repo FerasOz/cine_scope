@@ -1,4 +1,6 @@
+import 'package:cine_scope/core/helpers/spacing.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SearchResultItem extends StatelessWidget {
   final String imageUrl;
@@ -17,11 +19,11 @@ class SearchResultItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
       child: Row(
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
             child: Image.network(
               imageUrl,
               width: 80,
@@ -29,7 +31,7 @@ class SearchResultItem extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          const SizedBox(width: 12),
+          horizontalSpace(12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,30 +40,30 @@ class SearchResultItem extends StatelessWidget {
                   title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
-                    fontSize: 16,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(height: 6),
+                verticalSpace(6),
                 Row(
                   children: [
                     const Icon(Icons.star,
                         color: Colors.amber, size: 16),
-                    const SizedBox(width: 4),
+                    horizontalSpace(4),
                     Text(
                       rating,
                       style: const TextStyle(color: Colors.white),
                     ),
                   ],
                 ),
-                const SizedBox(height: 6),
+                verticalSpace(6),
                 Text(
                   year,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.grey,
-                    fontSize: 12,
+                    fontSize: 12.sp,
                   ),
                 ),
               ],

@@ -1,7 +1,9 @@
+import 'package:cine_scope/core/helpers/spacing.dart';
 import 'package:cine_scope/features/search/widgets/genre_chip.dart';
 import 'package:cine_scope/features/search/widgets/search_chip.dart';
 import 'package:flutter/material.dart';
-    
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class SearchInitialView extends StatelessWidget {
   const SearchInitialView({super.key});
 
@@ -12,15 +14,15 @@ class SearchInitialView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             "Trending",
             style: TextStyle(
               color: Colors.white,
-              fontSize: 18,
+              fontSize: 18.sp,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 12),
+          verticalSpace(12),
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -31,16 +33,16 @@ class SearchInitialView extends StatelessWidget {
               SearchChip(title: "Breaking Bad"),
             ],
           ),
-          const SizedBox(height: 30),
-          const Text(
+          verticalSpace(30),
+          Text(
             "Genres",
             style: TextStyle(
               color: Colors.white,
-              fontSize: 18,
+              fontSize: 18.sp,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 12),
+          verticalSpace(12),
           Wrap(
             spacing: 8,
             runSpacing: 8,
