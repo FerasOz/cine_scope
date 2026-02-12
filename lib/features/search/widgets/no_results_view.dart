@@ -1,4 +1,7 @@
+import 'package:cine_scope/core/helpers/spacing.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
     
 class NoResultsView extends StatelessWidget {
   const NoResultsView({super.key});
@@ -10,18 +13,20 @@ class NoResultsView extends StatelessWidget {
         padding: const EdgeInsets.all(32),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Icon(Icons.search_off,
-                size: 80, color: Colors.grey),
-            SizedBox(height: 20),
+          children: [
+            SvgPicture.asset(
+              "assets/images/svg/no_result.svg",
+              height: 150.h,
+            ),
+            verticalSpace(24),
             Text(
               "No Results Found",
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: 18,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 8),
+            verticalSpace(8),
             Text(
               "Try a different keyword",
               style: TextStyle(color: Colors.grey),
