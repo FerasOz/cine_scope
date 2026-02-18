@@ -1,6 +1,6 @@
 import 'package:cine_scope/core/helpers/spacing.dart';
 import 'package:cine_scope/core/styles/colors.dart';
-import 'package:cine_scope/features/home/widgets/horizontal_movies_list.dart';
+import 'package:cine_scope/features/home/ui/widgets/horizontal_movies_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

@@ -1,8 +1,8 @@
 import 'package:cine_scope/core/helpers/spacing.dart';
 import 'package:cine_scope/core/styles/colors.dart';
-import 'package:cine_scope/features/home/widgets/featured_movie_card.dart';
-import 'package:cine_scope/features/home/widgets/home_header.dart';
-import 'package:cine_scope/features/home/widgets/movie_section.dart';
+import 'package:cine_scope/features/home/ui/widgets/featured_movie_card.dart';
+import 'package:cine_scope/features/home/ui/widgets/home_header.dart';
+import 'package:cine_scope/features/home/ui/widgets/movie_section.dart';
 import 'package:flutter/material.dart';
     
 class HomeScreen extends StatelessWidget {

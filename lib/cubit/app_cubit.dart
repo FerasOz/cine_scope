@@ -1,6 +1,6 @@
 import 'package:cine_scope/core/helpers/constants.dart';
 import 'package:cine_scope/cubit/app_state.dart';
-import 'package:cine_scope/features/home/home_screen.dart';
+import 'package:cine_scope/features/home/ui/home_screen.dart';
 import 'package:cine_scope/features/search/search_screen.dart';
 import 'package:cine_scope/features/watch_list/watchlist_screen.dart';
 import 'package:flutter/material.dart';
