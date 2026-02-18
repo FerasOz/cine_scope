@@ -1,8 +1,10 @@
+import 'package:cine_scope/core/di/dependency_injection.dart';
 import 'package:cine_scope/core/routing/routes.dart';
 import 'package:cine_scope/cubit/app_cubit.dart';
 import 'package:cine_scope/features/app_layout.dart';
 import 'package:cine_scope/features/details/details_screen.dart';
-import 'package:cine_scope/features/home/home_screen.dart';
+import 'package:cine_scope/features/home/logic/home_cubit.dart';
+import 'package:cine_scope/features/home/ui/home_screen.dart';
 import 'package:cine_scope/features/search/search_screen.dart';
 import 'package:cine_scope/features/watch_list/watchlist_screen.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +24,12 @@ class AppRouters {
       case Routes.appLayout:
         return MaterialPageRoute(
           builder: (_) => MultiBlocProvider(
-            providers: [BlocProvider(create: (context) => AppCubit())],
+            providers: [
+              BlocProvider(create: (context) => AppCubit()),
+              BlocProvider(
+                create: (context) => getIt<HomeCubit>()..loadHomeData(),
+              ),
+            ],
             child: const AppLayout(),
           ),
         );
