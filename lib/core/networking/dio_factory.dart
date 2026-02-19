@@ -1,3 +1,4 @@
+import 'package:cine_scope/core/networking/api_constants.dart';
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -27,7 +28,7 @@ class DioFactory {
     dio?.options.headers = {
       'Accept': 'application/json',
       'Authorization':
-          'Bearer MY_API_KEY',
+          'Bearer ${ApiConstants.apiToken}', 
     };
   }
 
