@@ -3,6 +3,7 @@ import 'package:cine_scope/core/routing/routes.dart';
 import 'package:cine_scope/cubit/app_cubit.dart';
 import 'package:cine_scope/features/app_layout.dart';
 import 'package:cine_scope/features/details/details_screen.dart';
+import 'package:cine_scope/features/details/logic/movie_details_cubit.dart';
 import 'package:cine_scope/features/home/logic/home_cubit.dart';
 import 'package:cine_scope/features/home/ui/home_screen.dart';
 import 'package:cine_scope/features/search/search_screen.dart';
@@ -16,7 +17,15 @@ class AppRouters {
       case Routes.homeScreen:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case Routes.detailsScreen:
-        return MaterialPageRoute(builder: (_) => const DetailsScreen());
+        final movieId = settings.arguments as int;
+
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) =>
+                getIt<MovieDetailsCubit>()..getMovieDetails(movieId),
+            child: const DetailsScreen(),
+          ),
+        );
       case Routes.searchScreen:
         return MaterialPageRoute(builder: (_) => const SearchScreen());
       case Routes.watchListScreen:
