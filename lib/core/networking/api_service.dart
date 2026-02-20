@@ -1,5 +1,6 @@
 import 'package:cine_scope/core/networking/api_constants.dart';
-import 'package:cine_scope/data/models/movies_response_model.dart';
+import 'package:cine_scope/data/models/details_model/movie_details_model.dart';
+import 'package:cine_scope/data/models/home_model/movies_response_model.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -17,4 +18,7 @@ abstract class ApiService {
 
   @GET(ApiConstants.topRatedMovies)
   Future<MoviesResponseModel> getTopRatedMovies();
+
+  @GET(ApiConstants.movieDetails)
+  Future<MovieDetailsModel> getMovieDetails(@Path("movie_id") int movieId);
 }

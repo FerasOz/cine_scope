@@ -5,4 +5,5 @@ class ApiConstants {
   static const popularMovies = "/movie/popular";
   static const topRatedMovies = "/movie/top_rated";
   static const searchMovies = "/search/movie";
+  static const movieDetails = "movie/{movie_id}";
 }
