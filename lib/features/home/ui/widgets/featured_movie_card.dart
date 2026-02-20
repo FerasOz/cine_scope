@@ -1,6 +1,6 @@
 import 'package:cine_scope/core/helpers/spacing.dart';
 import 'package:cine_scope/core/routing/routes.dart';
-import 'package:cine_scope/data/models/movie_model.dart';
+import 'package:cine_scope/data/models/home_model/movie_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -20,7 +20,7 @@ class FeaturedMovieCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, Routes.detailsScreen);
+        Navigator.pushNamed(context, Routes.detailsScreen, arguments: movie!.id);
       },
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),

@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 
 class DetailsTabs extends StatelessWidget {
-  final TabController tabController;
-  const DetailsTabs({super.key, required this.tabController});
+  const DetailsTabs({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return TabBar(
-      controller: tabController,
+    return const TabBar(
       indicatorColor: Colors.redAccent,
       labelColor: Colors.white,
       unselectedLabelColor: Colors.grey,
-      tabs: const [
+      tabs: [
         Tab(text: "About Movie"),
         Tab(text: "Reviews"),
         Tab(text: "Cast"),

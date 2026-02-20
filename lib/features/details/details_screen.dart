@@ -1,57 +1,64 @@
-import 'package:cine_scope/core/styles/colors.dart';
 import 'package:cine_scope/features/details/widgets/Reviews_tab.dart';
 import 'package:cine_scope/features/details/widgets/about_movie_tab.dart';
 import 'package:cine_scope/features/details/widgets/cast_tab.dart';
 import 'package:cine_scope/features/details/widgets/details_screen_sliver_app_bar.dart';
 import 'package:cine_scope/features/details/widgets/details_tabs.dart';
 import 'package:cine_scope/features/details/widgets/movie_info_section.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cine_scope/features/details/logic/movie_details_cubit.dart';
+import 'package:cine_scope/features/details/logic/movie_details_state.dart';
+import 'package:cine_scope/core/helpers/constants.dart';
+import 'package:cine_scope/core/styles/colors.dart';
 import 'package:flutter/material.dart';
 
-class DetailsScreen extends StatefulWidget {
+class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key});
-
-  @override
-  State<DetailsScreen> createState() => _DetailsScreenState();
-}
-
-class _DetailsScreenState extends State<DetailsScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 3, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorsManager.primary,
-      body: CustomScrollView(
-        slivers: [
-          const DetailsSliverAppBar(),
-          SliverToBoxAdapter(child: MovieInfoSection()),
-          SliverToBoxAdapter(
-            child: DetailsTabs(tabController: _tabController),
-          ),
-          SliverFillRemaining(
-            child: TabBarView(
-              controller: _tabController,
-              children: const [
-                AboutMovieTab(),
-                ReviewsTab(),
-                CastTab(),
+      body: BlocBuilder<MovieDetailsCubit, MovieDetailsState>(
+        builder: (context, state) {
+          if (state.status == RequestsStatus.loading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (state.status == RequestsStatus.error) {
+            return Center(
+              child: Text(
+                state.error ?? "Something went wrong",
+                style: const TextStyle(color: Colors.white),
+              ),
+            );
+          }
+
+          final movie = state.movieDetails;
+
+          if (movie == null) {
+            return const SizedBox();
+          }
+
+          return DefaultTabController(
+            length: 3,
+            child: CustomScrollView(
+              slivers: [
+                DetailsSliverAppBar(imagePath: movie.backdropPath),
+                SliverToBoxAdapter(child: MovieInfoSection(movie: movie)),
+                const SliverToBoxAdapter(child: DetailsTabs()),
+                SliverFillRemaining(
+                  child: TabBarView(
+                    children: [
+                      AboutMovieTab(overview: movie.overview ?? ""),
+                      const ReviewsTab(),
+                      const CastTab(),
+                    ],
+                  ),
+                ),
               ],
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
