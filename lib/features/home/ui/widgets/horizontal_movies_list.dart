@@ -1,6 +1,6 @@
 import 'package:cine_scope/core/helpers/spacing.dart';
 import 'package:cine_scope/core/routing/routes.dart';
-import 'package:cine_scope/data/models/home_model/movie_model.dart';
+import 'package:cine_scope/features/home/data/models/movie_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

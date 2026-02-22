@@ -1,4 +1,4 @@
-import 'package:cine_scope/data/repos/home_repo/home_repo.dart';
+import 'package:cine_scope/features/home/data/repo/home_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cine_scope/core/helpers/constants.dart';
 import 'home_state.dart';

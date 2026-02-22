@@ -1,5 +1,5 @@
 import 'package:cine_scope/core/styles/colors.dart';
-import 'package:cine_scope/features/search/widgets/search_body.dart';
+import 'package:cine_scope/features/search/ui/widgets/search_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

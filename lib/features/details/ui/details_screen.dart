@@ -1,9 +1,9 @@
-import 'package:cine_scope/features/details/widgets/Reviews_tab.dart';
-import 'package:cine_scope/features/details/widgets/about_movie_tab.dart';
-import 'package:cine_scope/features/details/widgets/cast_tab.dart';
-import 'package:cine_scope/features/details/widgets/details_screen_sliver_app_bar.dart';
-import 'package:cine_scope/features/details/widgets/details_tabs.dart';
-import 'package:cine_scope/features/details/widgets/movie_info_section.dart';
+import 'package:cine_scope/features/details/ui/widgets/Reviews_tab.dart';
+import 'package:cine_scope/features/details/ui/widgets/about_movie_tab.dart';
+import 'package:cine_scope/features/details/ui/widgets/cast_tab.dart';
+import 'package:cine_scope/features/details/ui/widgets/details_screen_sliver_app_bar.dart';
+import 'package:cine_scope/features/details/ui/widgets/details_tabs.dart';
+import 'package:cine_scope/features/details/ui/widgets/movie_info_section.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cine_scope/features/details/logic/movie_details_cubit.dart';
 import 'package:cine_scope/features/details/logic/movie_details_state.dart';

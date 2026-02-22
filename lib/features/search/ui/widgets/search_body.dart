@@ -1,4 +1,4 @@
-import 'package:cine_scope/features/search/widgets/search_initial_view.dart';
+import 'package:cine_scope/features/search/ui/widgets/search_initial_view.dart';
 import 'package:flutter/material.dart';
 
 class SearchBody extends StatelessWidget {

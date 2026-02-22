@@ -1,5 +1,5 @@
 import 'package:cine_scope/core/helpers/constants.dart';
-import 'package:cine_scope/data/repos/details_repo/movie_details_repo.dart';
+import 'package:cine_scope/features/details/data/repo/movie_details_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'movie_details_state.dart';

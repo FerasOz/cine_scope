@@ -1,6 +1,6 @@
 import 'package:cine_scope/core/helpers/spacing.dart';
-import 'package:cine_scope/features/search/widgets/genre_chip.dart';
-import 'package:cine_scope/features/search/widgets/search_chip.dart';
+import 'package:cine_scope/features/search/ui/widgets/genre_chip.dart';
+import 'package:cine_scope/features/search/ui/widgets/search_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

@@ -1,5 +1,5 @@
 import 'package:cine_scope/core/helpers/constants.dart';
-import 'package:cine_scope/data/models/home_model/movie_model.dart';
+import 'package:cine_scope/features/home/data/models/movie_model.dart';
 
 class HomeState {
   final RequestsStatus trendingStatus;

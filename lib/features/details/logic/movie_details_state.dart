@@ -1,5 +1,5 @@
 import 'package:cine_scope/core/helpers/constants.dart';
-import 'package:cine_scope/data/models/details_model/movie_details_model.dart';
+import 'package:cine_scope/features/details/data/models/movie_details_model.dart';
 
 class MovieDetailsState {
   final RequestsStatus status;
