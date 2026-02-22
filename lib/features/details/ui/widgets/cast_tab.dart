@@ -17,8 +17,8 @@ class CastTab extends StatelessWidget {
       itemCount: casts.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 8,
         childAspectRatio: 0.75,
       ),
       itemBuilder: (context, index) {
@@ -33,7 +33,11 @@ class CastTab extends StatelessWidget {
                   : null,
             ),
             const SizedBox(height: 8),
-            Text(actor.name),
+            Text(
+              actor.character,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.grey, fontSize: 12),
+            ),
           ],
         );
       },
