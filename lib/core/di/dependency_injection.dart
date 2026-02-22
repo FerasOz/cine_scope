@@ -19,7 +19,7 @@ Future<void> setUpGetIt() async {
   getIt.registerLazySingleton<MovieDetailsRepo>(
     () => MovieDetailsRepo(getIt<ApiService>()),
   );
-  getIt.registerLazySingleton<MovieDetailsCubit>(
+  getIt.registerFactory<MovieDetailsCubit>(
     () => MovieDetailsCubit(getIt<MovieDetailsRepo>()),
   );
 }
