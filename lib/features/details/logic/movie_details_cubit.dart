@@ -12,20 +12,31 @@ class MovieDetailsCubit extends Cubit<MovieDetailsState> {
   Future<void> getMovieDetails(int movieId) async {
     emit(state.copyWith(status: RequestsStatus.loading));
 
-    final result = await _movieDetailsRepo.getMovieDetails(movieId);
+    final detailsResult = await _movieDetailsRepo.getMovieDetails(movieId);
 
-    if (result.isSuccess) {
+    final reviewsResult = await _movieDetailsRepo.getMovieReviews(movieId);
+
+    final castResult = await _movieDetailsRepo.getMovieCast(movieId);
+
+    if (detailsResult.isSuccess &&
+        reviewsResult.isSuccess &&
+        castResult.isSuccess) {
       emit(
         state.copyWith(
           status: RequestsStatus.success,
-          movieDetails: result.data!,
+          movieDetails: detailsResult.data,
+          reviews: reviewsResult.data?.results ?? [],
+          casts: castResult.data?.cast ?? [],
         ),
       );
     } else {
       emit(
         state.copyWith(
           status: RequestsStatus.error,
-          error: result.error?.errorMessage,
+          error:
+              detailsResult.error?.errorMessage ??
+              reviewsResult.error?.errorMessage ??
+              castResult.error?.errorMessage,
         ),
       );
     }

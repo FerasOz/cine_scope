@@ -50,8 +50,8 @@ class DetailsScreen extends StatelessWidget {
                   child: TabBarView(
                     children: [
                       AboutMovieTab(overview: movie.overview ?? ""),
-                      const ReviewsTab(),
-                      const CastTab(),
+                      ReviewsTab(reviews: state.reviews ?? []),
+                      CastTab(casts: state.casts ?? []),
                     ],
                   ),
                 ),

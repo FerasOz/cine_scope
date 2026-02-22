@@ -1,4 +1,4 @@
-import 'package:cine_scope/features/details/data/models/movie_details_model.dart';
+import 'package:cine_scope/features/details/data/models/details/movie_details_model.dart';
 import 'package:flutter/material.dart';
 
 class MovieInfoSection extends StatelessWidget {
