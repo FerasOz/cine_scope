@@ -27,7 +27,7 @@ class MovieInfoSection extends StatelessWidget {
               const Icon(Icons.star, color: Colors.amber, size: 18),
               const SizedBox(width: 4),
               Text(
-                movie.voteAverage.toString(),
+                movie.voteAverage.toStringAsFixed(1),
                 style: const TextStyle(color: Colors.white),
               ),
             ],
