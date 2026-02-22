@@ -54,13 +54,11 @@ class MovieDetailsModel {
 
   /// Helpers
 
-  String get year =>
-      releaseDate != null && releaseDate!.isNotEmpty
-          ? releaseDate!.split('-').first
-          : '';
+  String get year => releaseDate != null && releaseDate!.isNotEmpty
+      ? releaseDate!.split('-').first
+      : '';
 
-  String get genresText =>
-      genres.map((e) => e.name).join(', ');
+  String get genresText => genres.map((e) => e.name).join(', ');
 }
 
 @JsonSerializable()
@@ -68,10 +66,7 @@ class GenreModel {
   final int id;
   final String name;
 
-  GenreModel({
-    required this.id,
-    required this.name,
-  });
+  GenreModel({required this.id, required this.name});
 
   factory GenreModel.fromJson(Map<String, dynamic> json) =>
       _$GenreModelFromJson(json);
