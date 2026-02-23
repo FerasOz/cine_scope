@@ -1,5 +1,6 @@
 import 'package:cine_scope/core/di/dependency_injection.dart';
 import 'package:cine_scope/core/routing/routes.dart';
+import 'package:cine_scope/features/bottom_nav/search/logic/search_cubit.dart';
 import 'package:cine_scope/features/cubit/app_cubit.dart';
 import 'package:cine_scope/features/app_layout.dart';
 import 'package:cine_scope/features/bottom_nav/details/ui/details_screen.dart';
@@ -38,6 +39,7 @@ class AppRouters {
               BlocProvider(
                 create: (context) => getIt<HomeCubit>()..loadHomeData(),
               ),
+              BlocProvider(create: (context) => getIt<SearchCubit>()),
             ],
             child: const AppLayout(),
           ),
