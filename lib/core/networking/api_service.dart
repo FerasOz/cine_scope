@@ -1,8 +1,8 @@
 import 'package:cine_scope/core/networking/api_constants.dart';
-import 'package:cine_scope/features/details/data/models/casts/credits_response_model.dart';
-import 'package:cine_scope/features/details/data/models/details/movie_details_model.dart';
-import 'package:cine_scope/features/details/data/models/review/reviews_response_model.dart';
-import 'package:cine_scope/features/home/data/models/movies_response_model.dart';
+import 'package:cine_scope/features/bottom_nav/details/data/models/casts/credits_response_model.dart';
+import 'package:cine_scope/features/bottom_nav/details/data/models/details/movie_details_model.dart';
+import 'package:cine_scope/features/bottom_nav/details/data/models/review/reviews_response_model.dart';
+import 'package:cine_scope/features/bottom_nav/home/data/models/movies_response_model.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
