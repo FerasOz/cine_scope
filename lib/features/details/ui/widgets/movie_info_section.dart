@@ -1,5 +1,7 @@
+import 'package:cine_scope/core/helpers/spacing.dart';
 import 'package:cine_scope/features/details/data/models/details/movie_details_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MovieInfoSection extends StatelessWidget {
   final MovieDetailsModel movie;
@@ -15,24 +17,24 @@ class MovieInfoSection extends StatelessWidget {
         children: [
           Text(
             movie.title,
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.white,
-              fontSize: 22,
+              fontSize: 22.sp,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 8),
+          verticalSpace(8),
           Row(
             children: [
-              const Icon(Icons.star, color: Colors.amber, size: 18),
-              const SizedBox(width: 4),
+              Icon(Icons.star, color: Colors.amber, size: 18.sp),
+              horizontalSpace(4),
               Text(
                 movie.voteAverage.toStringAsFixed(1),
-                style: const TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.white, fontSize: 14.sp),
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          horizontalSpace(12),
           Row(
             children: [
               _InfoChip(
@@ -65,9 +67,12 @@ class _InfoChip extends StatelessWidget {
       padding: const EdgeInsets.only(right: 12),
       child: Row(
         children: [
-          Icon(icon, size: 14, color: Colors.grey),
-          const SizedBox(width: 4),
-          Text(text, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+          Icon(icon, size: 14.sp, color: Colors.grey),
+          horizontalSpace(4),
+          Text(
+            text,
+            style: TextStyle(color: Colors.grey, fontSize: 12.sp),
+          ),
         ],
       ),
     );

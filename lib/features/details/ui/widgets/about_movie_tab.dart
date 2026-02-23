@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AboutMovieTab extends StatelessWidget {
   final String overview;
@@ -11,7 +12,7 @@ class AboutMovieTab extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Text(
         overview,
-        style: const TextStyle(color: Colors.grey, fontSize: 14),
+        style: TextStyle(color: Colors.grey, fontSize: 14.sp),
       ),
     );
   }

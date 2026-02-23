@@ -1,5 +1,7 @@
+import 'package:cine_scope/core/helpers/spacing.dart';
 import 'package:cine_scope/features/details/data/models/casts/cast_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CastTab extends StatelessWidget {
   final List<CastModel> casts;
@@ -27,16 +29,16 @@ class CastTab extends StatelessWidget {
         return Column(
           children: [
             CircleAvatar(
-              radius: 40,
+              radius: 40.r,
               backgroundImage: actor.imageUrl.isNotEmpty
                   ? NetworkImage(actor.imageUrl)
                   : null,
             ),
-            const SizedBox(height: 8),
+            verticalSpace(8),
             Text(
               actor.character,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.grey, fontSize: 12),
+              style: TextStyle(color: Colors.grey, fontSize: 12.sp),
             ),
           ],
         );
