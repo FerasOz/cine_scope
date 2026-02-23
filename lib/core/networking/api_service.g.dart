@@ -22,12 +22,12 @@ class _ApiService implements ApiService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<MoviesResponseModel> getTrendingMovies() async {
+  Future<PaginatedMoviesResponse> getTrendingMovies() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<MoviesResponseModel>(
+    final _options = _setStreamType<PaginatedMoviesResponse>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -38,9 +38,9 @@ class _ApiService implements ApiService {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late MoviesResponseModel _value;
+    late PaginatedMoviesResponse _value;
     try {
-      _value = MoviesResponseModel.fromJson(_result.data!);
+      _value = PaginatedMoviesResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -49,12 +49,12 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<MoviesResponseModel> getPopularMovies() async {
+  Future<PaginatedMoviesResponse> getPopularMovies() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<MoviesResponseModel>(
+    final _options = _setStreamType<PaginatedMoviesResponse>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -65,9 +65,9 @@ class _ApiService implements ApiService {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late MoviesResponseModel _value;
+    late PaginatedMoviesResponse _value;
     try {
-      _value = MoviesResponseModel.fromJson(_result.data!);
+      _value = PaginatedMoviesResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -76,12 +76,12 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<MoviesResponseModel> getTopRatedMovies() async {
+  Future<PaginatedMoviesResponse> getTopRatedMovies() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<MoviesResponseModel>(
+    final _options = _setStreamType<PaginatedMoviesResponse>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -92,9 +92,9 @@ class _ApiService implements ApiService {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late MoviesResponseModel _value;
+    late PaginatedMoviesResponse _value;
     try {
-      _value = MoviesResponseModel.fromJson(_result.data!);
+      _value = PaginatedMoviesResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -176,6 +176,33 @@ class _ApiService implements ApiService {
     late CreditsResponseModel _value;
     try {
       _value = CreditsResponseModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<PaginatedMoviesResponse> searchMovies(String query, int page) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'query': query, r'page': page};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<PaginatedMoviesResponse>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/search/movie',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late PaginatedMoviesResponse _value;
+    try {
+      _value = PaginatedMoviesResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
