@@ -4,6 +4,8 @@ import 'package:cine_scope/features/bottom_nav/details/data/repo/movie_details_r
 import 'package:cine_scope/features/bottom_nav/home/data/repo/home_repo.dart';
 import 'package:cine_scope/features/bottom_nav/details/logic/movie_details_cubit.dart';
 import 'package:cine_scope/features/bottom_nav/home/logic/home_cubit.dart';
+import 'package:cine_scope/features/bottom_nav/search/data/search_repo.dart';
+import 'package:cine_scope/features/bottom_nav/search/logic/search_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
@@ -22,4 +24,9 @@ Future<void> setUpGetIt() async {
   getIt.registerFactory<MovieDetailsCubit>(
     () => MovieDetailsCubit(getIt<MovieDetailsRepo>()),
   );
+
+  getIt.registerLazySingleton<SearchRepo>(
+    () => SearchRepo(getIt<ApiService>()),
+  );
+  getIt.registerFactory<SearchCubit>(() => SearchCubit(getIt<SearchRepo>()));
 }
