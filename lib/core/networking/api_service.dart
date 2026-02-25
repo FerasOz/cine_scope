@@ -35,4 +35,11 @@ abstract class ApiService {
     @Query("query") String query,
     @Query("page") int page,
   );
+
+    @GET(ApiConstants.genrehMovies)
+  Future<PaginatedMoviesResponse> getMoviesByGenre(
+    @Query("with_genres") int genreId,
+    @Query("page") int page,
+  );
+
 }
