@@ -1,7 +1,9 @@
 import 'package:cine_scope/core/helpers/spacing.dart';
+import 'package:cine_scope/features/bottom_nav/search/logic/search_cubit.dart';
 import 'package:cine_scope/features/bottom_nav/search/ui/widgets/genre_chip.dart';
 import 'package:cine_scope/features/bottom_nav/search/ui/widgets/search_chip.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SearchInitialView extends StatelessWidget {
@@ -9,11 +11,28 @@ class SearchInitialView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final searchCubit = context.read<SearchCubit>();
+
+    final trending = [
+      "Spider-Man",
+      "Dune",
+      "Oppenheimer",
+      "Breaking Bad",
+    ];
+
+    final genres = {
+      "Action": 28,
+      "Drama": 18,
+      "Sci-Fi": 878,
+      "Comedy": 35,
+    };
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          /// Trending
           Text(
             "Trending",
             style: TextStyle(
@@ -23,17 +42,23 @@ class SearchInitialView extends StatelessWidget {
             ),
           ),
           verticalSpace(12),
+
           Wrap(
             spacing: 8,
             runSpacing: 8,
-            children: const [
-              SearchChip(title: "Spider-Man"),
-              SearchChip(title: "Dune"),
-              SearchChip(title: "Oppenheimer"),
-              SearchChip(title: "Breaking Bad"),
-            ],
+            children: trending.map((title) {
+              return SearchChip(
+                title: title,
+                onTap: () {
+                  searchCubit.search(title);
+                },
+              );
+            }).toList(),
           ),
+
           verticalSpace(30),
+
+          /// Genres
           Text(
             "Genres",
             style: TextStyle(
@@ -43,15 +68,18 @@ class SearchInitialView extends StatelessWidget {
             ),
           ),
           verticalSpace(12),
+
           Wrap(
             spacing: 8,
             runSpacing: 8,
-            children: const [
-              GenreChip(title: "Action"),
-              GenreChip(title: "Drama"),
-              GenreChip(title: "Sci-Fi"),
-              GenreChip(title: "Comedy"),
-            ],
+            children: genres.entries.map((genre) {
+              return GenreChip(
+                title: genre.key,
+                onTap: () {
+                  searchCubit.searchByGenre(genre.value);
+                },
+              );
+            }).toList(),
           ),
         ],
       ),
