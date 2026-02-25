@@ -9,6 +9,7 @@ class SearchCubit extends Cubit<SearchState> {
   final SearchRepo _repo;
 
   String _currentQuery = "";
+  int _currentPage = 1;
 
   SearchCubit(this._repo) : super(const SearchState());
 
@@ -71,6 +72,36 @@ class SearchCubit extends Cubit<SearchState> {
         state.copyWith(
           status: RequestsStatus.success,
           movies: [...state.movies, ...result.data!.results],
+          currentPage: result.data!.page,
+          totalPages: result.data!.totalPages,
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          status: RequestsStatus.error,
+          error: result.error?.errorMessage,
+        ),
+      );
+    }
+  }
+
+  Future<void> searchByGenre(int genreId) async {
+    emit(state.copyWith(status: RequestsStatus.loading, movies: []));
+
+    _currentPage = 1;
+    _currentQuery = "";
+
+    final result = await _repo.getMoviesByGenre(
+      genreId: genreId,
+      page: _currentPage,
+    );
+
+    if (result.isSuccess) {
+      emit(
+        state.copyWith(
+          status: RequestsStatus.success,
+          movies: result.data!.results,
           currentPage: result.data!.page,
           totalPages: result.data!.totalPages,
         ),

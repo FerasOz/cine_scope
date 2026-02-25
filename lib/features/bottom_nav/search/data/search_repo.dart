@@ -20,4 +20,17 @@ class SearchRepo {
       return ApiResult.failure(ApiErrorHandler.handle(error));
     }
   }
+
+  Future<ApiResult<PaginatedMoviesResponse>> getMoviesByGenre({
+    required int genreId,
+    required int page,
+  }) async {
+    try {
+      final response = await _apiService.getMoviesByGenre(genreId, page);
+
+      return ApiResult.success(response);
+    } catch (error) {
+      return ApiResult.failure(ApiErrorHandler.handle(error));
+    }
+  }
 }
