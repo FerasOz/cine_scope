@@ -33,4 +33,14 @@ class SearchRepo {
       return ApiResult.failure(ApiErrorHandler.handle(error));
     }
   }
+
+  Future<ApiResult<PaginatedMoviesResponse>> getTrendingMovies() async {
+    try {
+      final response = await _apiService.getTrendingMovies();
+
+      return ApiResult.success(response);
+    } catch (error) {
+      return ApiResult.failure(ApiErrorHandler.handle(error));
+    }
+  }
 }

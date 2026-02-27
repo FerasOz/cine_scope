@@ -42,4 +42,9 @@ abstract class ApiService {
     @Query("page") int page,
   );
 
+  @GET(ApiConstants.trendingMoviesWeek)
+  Future<PaginatedMoviesResponse> getTrendingMoviesWeek();
+
+  
+
 }
