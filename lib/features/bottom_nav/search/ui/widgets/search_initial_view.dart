@@ -20,7 +20,6 @@ class SearchInitialView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// Genres
           Text(
             "Genres",
             style: TextStyle(
@@ -46,7 +45,6 @@ class SearchInitialView extends StatelessWidget {
 
           verticalSpace(30),
 
-          /// Trending
           Text(
             "Trending",
             style: TextStyle(
@@ -93,7 +91,6 @@ class SearchInitialView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16.r),
                       child: Stack(
                         children: [
-                          /// Poster
                           Positioned.fill(
                             child: Image.network(
                               movie.posterPath != null
@@ -102,8 +99,6 @@ class SearchInitialView extends StatelessWidget {
                               fit: BoxFit.cover,
                             ),
                           ),
-
-                          /// Gradient overlay
                           Positioned(
                             bottom: 0,
                             left: 0,
