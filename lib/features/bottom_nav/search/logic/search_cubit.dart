@@ -11,7 +11,9 @@ class SearchCubit extends Cubit<SearchState> {
   String _currentQuery = "";
   int _currentPage = 1;
 
-  SearchCubit(this._repo) : super(const SearchState());
+  SearchCubit(this._repo) : super(const SearchState()) {
+    loadTrending();
+  }
 
   Timer? _debounce;
 
@@ -106,6 +108,21 @@ class SearchCubit extends Cubit<SearchState> {
           totalPages: result.data!.totalPages,
         ),
       );
+    } else {
+      emit(
+        state.copyWith(
+          status: RequestsStatus.error,
+          error: result.error?.errorMessage,
+        ),
+      );
+    }
+  }
+
+  Future<void> loadTrending() async {
+    final result = await _repo.getTrendingMovies();
+
+    if (result.isSuccess) {
+      emit(state.copyWith(trending: result.data!.results));
     } else {
       emit(
         state.copyWith(
