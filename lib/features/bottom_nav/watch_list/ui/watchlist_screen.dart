@@ -1,6 +1,6 @@
 import 'package:cine_scope/core/styles/colors.dart';
-import 'package:cine_scope/features/bottom_nav/watch_list/widgets/watchlist_empty_view.dart';
-import 'package:cine_scope/features/bottom_nav/watch_list/widgets/watchlist_list_view.dart';
+import 'package:cine_scope/features/bottom_nav/watch_list/ui/widgets/watchlist_empty_view.dart';
+import 'package:cine_scope/features/bottom_nav/watch_list/ui/widgets/watchlist_list_view.dart';
 import 'package:flutter/material.dart';
 
 class WatchlistScreen extends StatelessWidget {

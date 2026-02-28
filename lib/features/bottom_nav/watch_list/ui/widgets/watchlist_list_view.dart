@@ -1,5 +1,5 @@
 import 'package:cine_scope/core/helpers/spacing.dart';
-import 'package:cine_scope/features/bottom_nav/watch_list/widgets/watchlist_item.dart';
+import 'package:cine_scope/features/bottom_nav/watch_list/ui/widgets/watchlist_item.dart';
 import 'package:flutter/material.dart';
 
 class WatchlistListView extends StatelessWidget {
