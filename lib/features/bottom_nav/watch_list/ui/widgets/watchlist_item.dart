@@ -61,6 +61,13 @@ class WatchlistItem extends StatelessWidget {
           icon: const Icon(Icons.bookmark_remove, color: Colors.redAccent),
           onPressed: () {
             cubit.toggleMovie(movie);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("Removed from Watchlist"),
+                backgroundColor: Colors.redAccent,
+                duration: const Duration(seconds: 2),
+              ),
+            );
           },
         ),
       ],
