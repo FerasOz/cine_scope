@@ -1,34 +1,28 @@
 import 'package:cine_scope/core/helpers/spacing.dart';
+import 'package:cine_scope/features/bottom_nav/watch_list/data/models/watchlist_movie.dart';
+import 'package:cine_scope/features/bottom_nav/watch_list/logic/watchlist_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WatchlistItem extends StatelessWidget {
-  final String imageUrl;
-  final String title;
-  final String rating;
-  final String genre;
-  final String year;
-  final String duration;
+  final WatchlistMovie movie;
 
-  const WatchlistItem({
-    super.key,
-    required this.imageUrl,
-    required this.title,
-    required this.rating,
-    required this.genre,
-    required this.year,
-    required this.duration,
-  });
+  const WatchlistItem({super.key, required this.movie});
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<WatchlistCubit>();
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(12.r),
           child: Image.network(
-            imageUrl,
+            movie.posterPath != null
+                ? "https://image.tmdb.org/t/p/w500${movie.posterPath}"
+                : "https://via.placeholder.com/500x750?text=No+Image",
             width: 80.w,
             height: 110.h,
             fit: BoxFit.cover,
@@ -40,7 +34,7 @@ class WatchlistItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                title,
+                movie.title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -54,25 +48,19 @@ class WatchlistItem extends StatelessWidget {
                 children: [
                   const Icon(Icons.star, color: Colors.amber, size: 16),
                   horizontalSpace(4),
-                  Text(rating, style: const TextStyle(color: Colors.white)),
+                  Text(
+                    movie.voteAverage.toStringAsFixed(1),
+                    style: const TextStyle(color: Colors.white),
+                  ),
                 ],
               ),
-              verticalSpace(6),
-              Row(
-                children: [
-                  _InfoItem(icon: Icons.movie, text: genre),
-                  _InfoItem(icon: Icons.calendar_today, text: year),
-                ],
-              ),
-              verticalSpace(6),
-              _InfoItem(icon: Icons.access_time, text: duration),
             ],
           ),
         ),
         IconButton(
           icon: const Icon(Icons.bookmark_remove, color: Colors.redAccent),
           onPressed: () {
-            // لاحقًا: remove from watchlist
+            cubit.toggleMovie(movie);
           },
         ),
       ],
