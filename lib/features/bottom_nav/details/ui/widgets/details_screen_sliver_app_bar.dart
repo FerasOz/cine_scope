@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 
 class DetailsSliverAppBar extends StatelessWidget {
   final String? imagePath;
+  final Widget? action;
 
-  const DetailsSliverAppBar({super.key, this.imagePath});
+  const DetailsSliverAppBar({super.key, this.imagePath, this.action});
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +16,7 @@ class DetailsSliverAppBar extends StatelessWidget {
       expandedHeight: 320,
       pinned: true,
       leading: const BackButton(color: Colors.white),
+      actions: action != null ? [action!] : null,
       flexibleSpace: FlexibleSpaceBar(
         background: Stack(
           fit: StackFit.expand,
