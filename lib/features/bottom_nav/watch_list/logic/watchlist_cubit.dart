@@ -15,7 +15,10 @@ class WatchlistCubit extends Cubit<WatchlistState> {
 
   Future<void> toggleMovie(WatchlistMovie movie) async {
     await repo.toggleMovie(movie);
-    loadWatchlist();
+
+    final updatedMovies = repo.getWatchlist();
+
+    emit(state.copyWith(movies: updatedMovies));
   }
 
   bool isSaved(int id) {
