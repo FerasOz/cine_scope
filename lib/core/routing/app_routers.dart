@@ -22,9 +22,11 @@ class AppRouters {
         final movieId = settings.arguments as int;
 
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) =>
-                getIt<MovieDetailsCubit>()..getMovieDetails(movieId),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => getIt<MovieDetailsCubit>()..getMovieDetails(movieId)),
+              BlocProvider(create: (context) => getIt<WatchlistCubit>()),
+            ],
             child: const DetailsScreen(),
           ),
         );
