@@ -7,8 +7,8 @@ class SearchResultItem extends StatelessWidget {
   final String imageUrl;
   final String title;
   final int movieId;
-  final String rating;
-  final String year;
+  final double rating;
+  final String? date;
 
   const SearchResultItem({
     super.key,
@@ -16,8 +16,13 @@ class SearchResultItem extends StatelessWidget {
     required this.movieId,
     required this.title,
     required this.rating,
-    required this.year,
+    required this.date,
   });
+
+  String get year {
+    if (date == null || date!.isEmpty) return "";
+    return date!.split('-').first;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +54,6 @@ class SearchResultItem extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     title,
@@ -66,14 +70,18 @@ class SearchResultItem extends StatelessWidget {
                     children: [
                       const Icon(Icons.star, color: Colors.amber, size: 16),
                       horizontalSpace(4),
-                      Text(rating, style: const TextStyle(color: Colors.white)),
+                      Text(
+                        rating.toStringAsFixed(1),
+                        style: const TextStyle(color: Colors.white),
+                      ),
                     ],
                   ),
                   verticalSpace(6),
-                  Text(
-                    year,
-                    style: TextStyle(color: Colors.grey, fontSize: 12.sp),
-                  ),
+                  if (year.isNotEmpty)
+                    Text(
+                      year,
+                      style: TextStyle(color: Colors.grey, fontSize: 12.sp),
+                    ),
                 ],
               ),
             ),

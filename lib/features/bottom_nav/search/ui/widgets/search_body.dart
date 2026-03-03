@@ -35,21 +35,21 @@ class SearchBody extends StatelessWidget {
         }
 
         /// SUCCESS
-        if (state.movies.isEmpty) {
+        if (state.results.isEmpty) {
           return const NoResultsView();
         }
 
         return ListView.builder(
-          itemCount: state.movies.length,
+          itemCount: state.results.length,
           itemBuilder: (context, index) {
-            final movie = state.movies[index];
+            final movie = state.results[index];
 
             return SearchResultItem(
               imageUrl: movie.posterPath ?? "",
               movieId: movie.id,
               title: movie.title,
-              rating: movie.rating.toStringAsFixed(1),
-              year: movie.releaseDate ?? "",
+              rating: movie.rating,
+              date: movie.releaseDate,
             );
           },
         );
