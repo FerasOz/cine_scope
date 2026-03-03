@@ -1,7 +1,5 @@
-import 'package:cine_scope/core/helpers/spacing.dart';
 import 'package:cine_scope/features/bottom_nav/details/data/models/review/review_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ReviewsTab extends StatelessWidget {
   final List<ReviewModel> reviews;
@@ -24,40 +22,9 @@ class ReviewsTab extends StatelessWidget {
 
         return Padding(
           padding: const EdgeInsets.only(bottom: 16),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CircleAvatar(
-                radius: 18.r,
-                backgroundColor: Colors.grey.shade800,
-                backgroundImage: review.imageUrl.isNotEmpty
-                    ? NetworkImage(review.imageUrl)
-                    : null,
-                child: review.imageUrl.isEmpty
-                    ? const Icon(Icons.person, size: 18)
-                    : null,
-              ),
-              horizontalSpace(12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      review.author,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    verticalSpace(4),
-                    Text(
-                      review.content,
-                      style: TextStyle(color: Colors.grey, fontSize: 14.sp),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+          child: Text(
+            review.content,
+            style: const TextStyle(color: Colors.grey),
           ),
         );
       },

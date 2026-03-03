@@ -8,8 +8,8 @@ import 'package:cine_scope/features/bottom_nav/watch_list/data/models/watchlist_
 import 'package:cine_scope/features/bottom_nav/watch_list/logic/watchlist_cubit.dart';
 import 'package:cine_scope/features/bottom_nav/watch_list/logic/watchlist_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cine_scope/features/bottom_nav/details/logic/movie_details_cubit.dart';
-import 'package:cine_scope/features/bottom_nav/details/logic/movie_details_state.dart';
+import 'package:cine_scope/features/bottom_nav/details/logic/media_details_cubit.dart';
+import 'package:cine_scope/features/bottom_nav/details/logic/media_details_state.dart';
 import 'package:cine_scope/core/helpers/constants.dart';
 import 'package:cine_scope/core/styles/colors.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +21,7 @@ class DetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorsManager.primary,
-      body: BlocBuilder<MovieDetailsCubit, MovieDetailsState>(
+      body: BlocBuilder<MediaDetailsCubit, MediaDetailsState>(
         builder: (context, state) {
           if (state.status == RequestsStatus.loading) {
             return const Center(child: CircularProgressIndicator());
@@ -36,23 +36,20 @@ class DetailsScreen extends StatelessWidget {
             );
           }
 
-          final movie = state.movieDetails;
-
-          if (movie == null) {
-            return const SizedBox();
-          }
+          final media = state.details;
+          if (media == null) return const SizedBox();
 
           return BlocBuilder<WatchlistCubit, WatchlistState>(
             builder: (context, watchState) {
               final watchCubit = context.read<WatchlistCubit>();
-              final isSaved = watchCubit.isSaved(movie.id);
+              final isSaved = watchCubit.isSaved(media.id);
 
               return DefaultTabController(
                 length: 3,
                 child: CustomScrollView(
                   slivers: [
                     DetailsSliverAppBar(
-                      imagePath: movie.backdropPath,
+                      imagePath: media.backdropPath,
                       action: IconButton(
                         icon: Icon(
                           isSaved
@@ -61,41 +58,30 @@ class DetailsScreen extends StatelessWidget {
                           color: isSaved ? Colors.orange : Colors.white,
                         ),
                         onPressed: () async {
-                          final watchMovie = WatchlistMovie(
-                            id: movie.id,
-                            title: movie.title,
-                            posterPath: movie.posterPath,
-                            voteAverage: movie.voteAverage,
+                          final watchItem = WatchlistMovie(
+                            id: media.id,
+                            title: media.title,
+                            posterPath: media.posterPath,
+                            voteAverage: media.voteAverage,
+                            // mediaType: media.mediaType,
                           );
 
-                          final cubit = context.read<WatchlistCubit>();
-                          final wasSaved = cubit.isSaved(movie.id);
-
-                          await cubit.toggleMovie(watchMovie);
-
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                wasSaved
-                                    ? "Removed from Watchlist"
-                                    : "Added to Watchlist",
-                              ),
-                              backgroundColor: wasSaved
-                                  ? Colors.redAccent
-                                  : Colors.orange,
-                              duration: const Duration(seconds: 2),
-                            ),
-                          );
+                          await watchCubit.toggleMovie(watchItem);
                         },
                       ),
                     ),
-                    SliverToBoxAdapter(child: MovieInfoSection(movie: movie)),
+
+                    SliverToBoxAdapter(child: MovieInfoSection(media: media)),
+
                     const SliverToBoxAdapter(child: DetailsTabs()),
+
                     SliverFillRemaining(
                       child: TabBarView(
                         children: [
-                          AboutMovieTab(overview: movie.overview ?? ""),
+                          AboutMovieTab(overview: media.overview ?? ""),
+
                           ReviewsTab(reviews: state.reviews ?? []),
+
                           CastTab(casts: state.casts ?? []),
                         ],
                       ),

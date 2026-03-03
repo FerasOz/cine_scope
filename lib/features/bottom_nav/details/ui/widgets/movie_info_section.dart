@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MovieInfoSection extends StatelessWidget {
-  final MovieDetailsModel movie;
+  final MediaDetailsModel media;
 
-  const MovieInfoSection({super.key, required this.movie});
+  const MovieInfoSection({super.key, required this.media});
 
   @override
   Widget build(BuildContext context) {
@@ -16,37 +16,41 @@ class MovieInfoSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            movie.title,
-            style: TextStyle(
+            media.title,
+            style: const TextStyle(
               color: Colors.white,
-              fontSize: 22.sp,
+              fontSize: 22,
               fontWeight: FontWeight.bold,
             ),
           ),
-          verticalSpace(8),
+          const SizedBox(height: 8),
+
           Row(
             children: [
-              Icon(Icons.star, color: Colors.amber, size: 18.sp),
-              horizontalSpace(4),
+              const Icon(Icons.star, color: Colors.amber),
+              const SizedBox(width: 4),
               Text(
-                movie.voteAverage.toStringAsFixed(1),
-                style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                media.voteAverage.toStringAsFixed(1),
+                style: const TextStyle(color: Colors.white),
               ),
             ],
           ),
-          horizontalSpace(12),
+
+          const SizedBox(height: 8),
+
           Row(
             children: [
-              _InfoChip(
-                icon: Icons.calendar_today,
-                text: movie.releaseDate!.substring(0, 4),
-              ),
-              _InfoChip(
-                icon: Icons.access_time,
-                text: "${movie.runtime} Minutes",
-              ),
-              if (movie.genres.isNotEmpty)
-                _InfoChip(icon: Icons.movie, text: movie.genres.first.name),
+              if (media.year.isNotEmpty)
+                _InfoChip(icon: Icons.calendar_today, text: media.year),
+
+              if (media.duration > 0)
+                _InfoChip(
+                  icon: Icons.access_time,
+                  text: "${media.duration} min",
+                ),
+
+              if (media.genres.isNotEmpty)
+                _InfoChip(icon: Icons.movie, text: media.genres.first.name),
             ],
           ),
         ],

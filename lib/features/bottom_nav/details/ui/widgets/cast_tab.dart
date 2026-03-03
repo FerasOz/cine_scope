@@ -38,7 +38,7 @@ class CastTab extends StatelessWidget {
             Text(
               actor.character,
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey, fontSize: 12.sp),
+              style: const TextStyle(color: Colors.grey),
             ),
           ],
         );
