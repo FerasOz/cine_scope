@@ -2,7 +2,7 @@ import 'package:cine_scope/core/networking/api_constants.dart';
 import 'package:cine_scope/features/bottom_nav/details/data/models/casts/credits_response_model.dart';
 import 'package:cine_scope/features/bottom_nav/details/data/models/details/movie_details_model.dart';
 import 'package:cine_scope/features/bottom_nav/details/data/models/review/reviews_response_model.dart';
-import 'package:cine_scope/features/bottom_nav/home/data/models/paginated_movies_response.dart';
+import 'package:cine_scope/features/bottom_nav/home/data/models/paginated_media_response.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -12,39 +12,59 @@ part 'api_service.g.dart';
 abstract class ApiService {
   factory ApiService(Dio dio, {String baseUrl}) = _ApiService;
 
-  @GET(ApiConstants.trendingMovies)
-  Future<PaginatedMoviesResponse> getTrendingMovies();
+  /// Trending
+  @GET(ApiConstants.trending)
+  Future<PaginatedMediaResponse> getTrending(
+    @Path("media_type") String mediaType, // movie | tv
+    @Path("time_window") String timeWindow, // day | week
+  );
 
-  @GET(ApiConstants.popularMovies)
-  Future<PaginatedMoviesResponse> getPopularMovies();
+  /// Popular
+  @GET(ApiConstants.popular)
+  Future<PaginatedMediaResponse> getPopular(
+    @Path("media_type") String mediaType,
+  );
 
-  @GET(ApiConstants.topRatedMovies)
-  Future<PaginatedMoviesResponse> getTopRatedMovies();
+  /// Top Rated
+  @GET(ApiConstants.topRated)
+  Future<PaginatedMediaResponse> getTopRated(
+    @Path("media_type") String mediaType,
+  );
 
-  @GET(ApiConstants.movieDetails)
-  Future<MovieDetailsModel> getMovieDetails(@Path("movie_id") int movieId);
+  /// Details
+  @GET(ApiConstants.details)
+  Future<MediaDetailsModel> getDetails(
+    @Path("media_type") String mediaType,
+    @Path("id") int id,
+  );
 
-  @GET(ApiConstants.movieReviews)
-  Future<ReviewsResponseModel> getMovieReviews(@Path("movie_id") int movieId);
+  /// Reviews
+  @GET(ApiConstants.reviews)
+  Future<ReviewsResponseModel> getReviews(
+    @Path("media_type") String mediaType,
+    @Path("id") int id,
+  );
 
-  @GET(ApiConstants.movieCasts)
-  Future<CreditsResponseModel> getMovieCast(@Path("movie_id") int movieId);
+  /// Credits
+  @GET(ApiConstants.credits)
+  Future<CreditsResponseModel> getCredits(
+    @Path("media_type") String mediaType,
+    @Path("id") int id,
+  );
 
-  @GET(ApiConstants.searchMovies)
-  Future<PaginatedMoviesResponse> searchMovies(
+  /// Search
+  @GET(ApiConstants.search)
+  Future<PaginatedMediaResponse> search(
+    @Path("media_type") String mediaType,
     @Query("query") String query,
     @Query("page") int page,
   );
 
-    @GET(ApiConstants.genrehMovies)
-  Future<PaginatedMoviesResponse> getMoviesByGenre(
+  /// Discover by genre
+  @GET(ApiConstants.discover)
+  Future<PaginatedMediaResponse> discoverByGenre(
+    @Path("media_type") String mediaType,
     @Query("with_genres") int genreId,
     @Query("page") int page,
   );
-
-  @GET(ApiConstants.trendingMoviesWeek)
-  Future<PaginatedMoviesResponse> getTrendingMoviesWeek();
-
-  
-
 }

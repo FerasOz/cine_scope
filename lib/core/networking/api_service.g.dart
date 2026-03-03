@@ -22,25 +22,28 @@ class _ApiService implements ApiService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<PaginatedMoviesResponse> getTrendingMovies() async {
+  Future<PaginatedMediaResponse> getTrending(
+    String mediaType,
+    String timeWindow,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<PaginatedMoviesResponse>(
+    final _options = _setStreamType<PaginatedMediaResponse>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/trending/movie/day',
+            '/trending/${mediaType}/${timeWindow}',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late PaginatedMoviesResponse _value;
+    late PaginatedMediaResponse _value;
     try {
-      _value = PaginatedMoviesResponse.fromJson(_result.data!);
+      _value = PaginatedMediaResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -49,25 +52,25 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<PaginatedMoviesResponse> getPopularMovies() async {
+  Future<PaginatedMediaResponse> getPopular(String mediaType) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<PaginatedMoviesResponse>(
+    final _options = _setStreamType<PaginatedMediaResponse>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/movie/popular',
+            '/${mediaType}/popular',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late PaginatedMoviesResponse _value;
+    late PaginatedMediaResponse _value;
     try {
-      _value = PaginatedMoviesResponse.fromJson(_result.data!);
+      _value = PaginatedMediaResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -76,25 +79,25 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<PaginatedMoviesResponse> getTopRatedMovies() async {
+  Future<PaginatedMediaResponse> getTopRated(String mediaType) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<PaginatedMoviesResponse>(
+    final _options = _setStreamType<PaginatedMediaResponse>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/movie/top_rated',
+            '/${mediaType}/top_rated',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late PaginatedMoviesResponse _value;
+    late PaginatedMediaResponse _value;
     try {
-      _value = PaginatedMoviesResponse.fromJson(_result.data!);
+      _value = PaginatedMediaResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -103,25 +106,25 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<MovieDetailsModel> getMovieDetails(int movieId) async {
+  Future<MediaDetailsModel> getDetails(String mediaType, int id) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<MovieDetailsModel>(
+    final _options = _setStreamType<MediaDetailsModel>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'movie/${movieId}',
+            '/${mediaType}/${id}',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late MovieDetailsModel _value;
+    late MediaDetailsModel _value;
     try {
-      _value = MovieDetailsModel.fromJson(_result.data!);
+      _value = MediaDetailsModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -130,7 +133,7 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<ReviewsResponseModel> getMovieReviews(int movieId) async {
+  Future<ReviewsResponseModel> getReviews(String mediaType, int id) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -139,7 +142,7 @@ class _ApiService implements ApiService {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'movie/${movieId}/reviews',
+            '/${mediaType}/${id}/reviews',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -157,7 +160,7 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<CreditsResponseModel> getMovieCast(int movieId) async {
+  Future<CreditsResponseModel> getCredits(String mediaType, int id) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -166,7 +169,7 @@ class _ApiService implements ApiService {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'movie/${movieId}/credits',
+            '/${mediaType}/${id}/credits',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -184,25 +187,29 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<PaginatedMoviesResponse> searchMovies(String query, int page) async {
+  Future<PaginatedMediaResponse> search(
+    String mediaType,
+    String query,
+    int page,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'query': query, r'page': page};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<PaginatedMoviesResponse>(
+    final _options = _setStreamType<PaginatedMediaResponse>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/search/movie',
+            '/search/${mediaType}',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late PaginatedMoviesResponse _value;
+    late PaginatedMediaResponse _value;
     try {
-      _value = PaginatedMoviesResponse.fromJson(_result.data!);
+      _value = PaginatedMediaResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -211,7 +218,8 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<PaginatedMoviesResponse> getMoviesByGenre(
+  Future<PaginatedMediaResponse> discoverByGenre(
+    String mediaType,
     int genreId,
     int page,
   ) async {
@@ -222,47 +230,20 @@ class _ApiService implements ApiService {
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<PaginatedMoviesResponse>(
+    final _options = _setStreamType<PaginatedMediaResponse>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/discover/movie',
+            '/discover/${mediaType}',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late PaginatedMoviesResponse _value;
+    late PaginatedMediaResponse _value;
     try {
-      _value = PaginatedMoviesResponse.fromJson(_result.data!);
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, response: _result);
-      rethrow;
-    }
-    return _value;
-  }
-
-  @override
-  Future<PaginatedMoviesResponse> getTrendingMoviesWeek() async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<PaginatedMoviesResponse>(
-      Options(method: 'GET', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/trending/movie/week',
-            queryParameters: queryParameters,
-            data: _data,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late PaginatedMoviesResponse _value;
-    try {
-      _value = PaginatedMoviesResponse.fromJson(_result.data!);
+      _value = PaginatedMediaResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
