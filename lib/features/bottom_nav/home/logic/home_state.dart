@@ -1,14 +1,14 @@
 import 'package:cine_scope/core/helpers/constants.dart';
-import 'package:cine_scope/features/bottom_nav/home/data/models/movie_model.dart';
+import 'package:cine_scope/features/bottom_nav/home/data/models/media_model.dart';
 
 class HomeState {
   final RequestsStatus trendingStatus;
   final RequestsStatus popularStatus;
   final RequestsStatus topRatedStatus;
 
-  final List<MovieModel> trendingMovies;
-  final List<MovieModel> popularMovies;
-  final List<MovieModel> topRatedMovies;
+  final List<MediaModel> trending;
+  final List<MediaModel> popular;
+  final List<MediaModel> topRated;
 
   final String? error;
 
@@ -16,9 +16,9 @@ class HomeState {
     this.trendingStatus = RequestsStatus.initial,
     this.popularStatus = RequestsStatus.initial,
     this.topRatedStatus = RequestsStatus.initial,
-    this.trendingMovies = const [],
-    this.popularMovies = const [],
-    this.topRatedMovies = const [],
+    this.trending = const [],
+    this.popular = const [],
+    this.topRated = const [],
     this.error,
   });
 
@@ -26,19 +26,19 @@ class HomeState {
     RequestsStatus? trendingStatus,
     RequestsStatus? popularStatus,
     RequestsStatus? topRatedStatus,
-    List<MovieModel>? trendingMovies,
-    List<MovieModel>? popularMovies,
-    List<MovieModel>? topRatedMovies,
+    List<MediaModel>? trending,
+    List<MediaModel>? popular,
+    List<MediaModel>? topRated,
     String? error,
   }) {
     return HomeState(
       trendingStatus: trendingStatus ?? this.trendingStatus,
       popularStatus: popularStatus ?? this.popularStatus,
       topRatedStatus: topRatedStatus ?? this.topRatedStatus,
-      trendingMovies: trendingMovies ?? this.trendingMovies,
-      popularMovies: popularMovies ?? this.popularMovies,
-      topRatedMovies: topRatedMovies ?? this.topRatedMovies,
-      error: error,
+      trending: trending ?? this.trending,
+      popular: popular ?? this.popular,
+      topRated: topRated ?? this.topRated,
+      error: error ?? this.error,
     );
   }
 }

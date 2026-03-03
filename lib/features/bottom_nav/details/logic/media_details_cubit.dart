@@ -1,22 +1,23 @@
 import 'package:cine_scope/core/helpers/constants.dart';
-import 'package:cine_scope/features/bottom_nav/details/data/repo/movie_details_repo.dart';
+import 'package:cine_scope/features/bottom_nav/details/data/repo/media_details_repo.dart';
+import 'package:cine_scope/features/bottom_nav/home/data/models/media_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'movie_details_state.dart';
+import 'media_details_state.dart';
 
-class MovieDetailsCubit extends Cubit<MovieDetailsState> {
-  final MovieDetailsRepo _movieDetailsRepo;
+class MediaDetailsCubit extends Cubit<MediaDetailsState> {
+  final MediaDetailsRepo _repo;
 
-  MovieDetailsCubit(this._movieDetailsRepo) : super(const MovieDetailsState());
+  MediaDetailsCubit(this._repo) : super(const MediaDetailsState());
 
-  Future<void> getMovieDetails(int movieId) async {
+  Future<void> getDetails({required MediaType type, required int id}) async {
     emit(state.copyWith(status: RequestsStatus.loading));
 
-    final detailsResult = await _movieDetailsRepo.getMovieDetails(movieId);
+    final detailsResult = await _repo.getDetails(type: type, id: id);
 
-    final reviewsResult = await _movieDetailsRepo.getMovieReviews(movieId);
+    final reviewsResult = await _repo.getReviews(type: type, id: id);
 
-    final castResult = await _movieDetailsRepo.getMovieCast(movieId);
+    final castResult = await _repo.getCredits(type: type, id: id);
 
     if (detailsResult.isSuccess &&
         reviewsResult.isSuccess &&
@@ -24,7 +25,7 @@ class MovieDetailsCubit extends Cubit<MovieDetailsState> {
       emit(
         state.copyWith(
           status: RequestsStatus.success,
-          movieDetails: detailsResult.data,
+          details: detailsResult.data,
           reviews: reviewsResult.data?.results ?? [],
           casts: castResult.data?.cast ?? [],
         ),

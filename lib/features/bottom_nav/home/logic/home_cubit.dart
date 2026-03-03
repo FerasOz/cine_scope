@@ -1,3 +1,4 @@
+import 'package:cine_scope/features/bottom_nav/home/data/models/media_model.dart';
 import 'package:cine_scope/features/bottom_nav/home/data/repo/home_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cine_scope/core/helpers/constants.dart';
@@ -8,26 +9,20 @@ class HomeCubit extends Cubit<HomeState> {
 
   HomeCubit(this._homeRepo) : super(HomeState());
 
-  /// Load all home data (Trending + Popular + Top Rated)
-  Future<void> loadHomeData() async {
-    await Future.wait([
-      getTrendingMovies(),
-      getPopularMovies(),
-      getTopRatedMovies(),
-    ]);
+  Future<void> loadHomeData(MediaType type) async {
+    await Future.wait([getTrending(type), getPopular(type), getTopRated(type)]);
   }
 
-  /// Trending Movies
-  Future<void> getTrendingMovies() async {
+  Future<void> getTrending(MediaType type) async {
     emit(state.copyWith(trendingStatus: RequestsStatus.loading));
 
-    final result = await _homeRepo.getTrendingMovies();
+    final result = await _homeRepo.getTrending(type: type);
 
     if (result.isSuccess) {
       emit(
         state.copyWith(
           trendingStatus: RequestsStatus.success,
-          trendingMovies: result.data!,
+          trending: result.data!,
         ),
       );
     } else {
@@ -40,17 +35,16 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  /// Popular Movies
-  Future<void> getPopularMovies() async {
+  Future<void> getPopular(MediaType type) async {
     emit(state.copyWith(popularStatus: RequestsStatus.loading));
 
-    final result = await _homeRepo.getPopularMovies();
+    final result = await _homeRepo.getPopular(type: type);
 
     if (result.isSuccess) {
       emit(
         state.copyWith(
           popularStatus: RequestsStatus.success,
-          popularMovies: result.data!,
+          popular: result.data!,
         ),
       );
     } else {
@@ -63,17 +57,16 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  /// Top Rated Movies
-  Future<void> getTopRatedMovies() async {
+  Future<void> getTopRated(MediaType type) async {
     emit(state.copyWith(topRatedStatus: RequestsStatus.loading));
 
-    final result = await _homeRepo.getTopRatedMovies();
+    final result = await _homeRepo.getTopRated(type: type);
 
     if (result.isSuccess) {
       emit(
         state.copyWith(
           topRatedStatus: RequestsStatus.success,
-          topRatedMovies: result.data!,
+          topRated: result.data!,
         ),
       );
     } else {

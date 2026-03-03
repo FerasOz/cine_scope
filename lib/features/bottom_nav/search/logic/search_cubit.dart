@@ -1,6 +1,6 @@
 import 'dart:async';
-
 import 'package:cine_scope/core/helpers/constants.dart';
+import 'package:cine_scope/features/bottom_nav/home/data/models/media_model.dart';
 import 'package:cine_scope/features/bottom_nav/search/data/search_repo.dart';
 import 'package:cine_scope/features/bottom_nav/search/logic/search_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,12 +10,16 @@ class SearchCubit extends Cubit<SearchState> {
 
   String _currentQuery = "";
   int _currentPage = 1;
+  MediaType _currentType = MediaType.movie;
 
-  SearchCubit(this._repo) : super(const SearchState()) {
-    loadTrending();
-  }
+  SearchCubit(this._repo) : super(const SearchState());
 
   Timer? _debounce;
+
+  void changeType(MediaType type) {
+    _currentType = type;
+    clear();
+  }
 
   void onSearchChanged(String query) {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
@@ -26,25 +30,33 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   Future<void> search(String query) async {
-    if (query.isEmpty) return;
+    if (query.isEmpty) {
+      emit(const SearchState());
+      return;
+    }
 
     _currentQuery = query;
+    _currentPage = 1;
 
     emit(
       state.copyWith(
         status: RequestsStatus.loading,
-        movies: [],
+        results: [],
         currentPage: 1,
       ),
     );
 
-    final result = await _repo.searchMovies(query: query, page: 1);
+    final result = await _repo.search(
+      type: _currentType,
+      query: query,
+      page: 1,
+    );
 
     if (result.isSuccess) {
       emit(
         state.copyWith(
           status: RequestsStatus.success,
-          movies: result.data!.results,
+          results: result.data!.results,
           currentPage: result.data!.page,
           totalPages: result.data!.totalPages,
         ),
@@ -64,7 +76,8 @@ class SearchCubit extends Cubit<SearchState> {
 
     final nextPage = state.currentPage + 1;
 
-    final result = await _repo.searchMovies(
+    final result = await _repo.search(
+      type: _currentType,
       query: _currentQuery,
       page: nextPage,
     );
@@ -72,29 +85,21 @@ class SearchCubit extends Cubit<SearchState> {
     if (result.isSuccess) {
       emit(
         state.copyWith(
-          status: RequestsStatus.success,
-          movies: [...state.movies, ...result.data!.results],
+          results: [...state.results, ...result.data!.results],
           currentPage: result.data!.page,
           totalPages: result.data!.totalPages,
-        ),
-      );
-    } else {
-      emit(
-        state.copyWith(
-          status: RequestsStatus.error,
-          error: result.error?.errorMessage,
         ),
       );
     }
   }
 
   Future<void> searchByGenre(int genreId) async {
-    emit(state.copyWith(status: RequestsStatus.loading, movies: []));
+    emit(state.copyWith(status: RequestsStatus.loading, results: []));
 
     _currentPage = 1;
-    _currentQuery = "";
 
-    final result = await _repo.getMoviesByGenre(
+    final result = await _repo.discoverByGenre(
+      type: _currentType,
       genreId: genreId,
       page: _currentPage,
     );
@@ -103,26 +108,11 @@ class SearchCubit extends Cubit<SearchState> {
       emit(
         state.copyWith(
           status: RequestsStatus.success,
-          movies: result.data!.results,
+          results: result.data!.results,
           currentPage: result.data!.page,
           totalPages: result.data!.totalPages,
         ),
       );
-    } else {
-      emit(
-        state.copyWith(
-          status: RequestsStatus.error,
-          error: result.error?.errorMessage,
-        ),
-      );
-    }
-  }
-
-  Future<void> loadTrending() async {
-    final result = await _repo.getTrendingMovies();
-
-    if (result.isSuccess) {
-      emit(state.copyWith(trending: result.data!.results));
     } else {
       emit(
         state.copyWith(
@@ -135,5 +125,11 @@ class SearchCubit extends Cubit<SearchState> {
 
   void clear() {
     emit(const SearchState());
+  }
+
+  @override
+  Future<void> close() {
+    _debounce?.cancel();
+    return super.close();
   }
 }

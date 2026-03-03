@@ -3,34 +3,34 @@ import 'package:cine_scope/features/bottom_nav/details/data/models/casts/cast_mo
 import 'package:cine_scope/features/bottom_nav/details/data/models/details/movie_details_model.dart';
 import 'package:cine_scope/features/bottom_nav/details/data/models/review/review_model.dart';
 
-class MovieDetailsState {
+class MediaDetailsState {
   final RequestsStatus status;
-  final MovieDetailsModel? movieDetails;
-    final List<ReviewModel>? reviews;
+  final MediaDetailsModel? details;
+  final List<ReviewModel>? reviews;
   final List<CastModel>? casts;
   final String? error;
 
-  const MovieDetailsState({
+  const MediaDetailsState({
     this.status = RequestsStatus.initial,
-    this.movieDetails,
+    this.details,
     this.reviews,
     this.casts,
     this.error,
   });
 
-  MovieDetailsState copyWith({
+  MediaDetailsState copyWith({
     RequestsStatus? status,
-    MovieDetailsModel? movieDetails,
+    MediaDetailsModel? details,
     List<ReviewModel>? reviews,
     List<CastModel>? casts,
     String? error,
   }) {
-    return MovieDetailsState(
+    return MediaDetailsState(
       status: status ?? this.status,
-      movieDetails: movieDetails ?? this.movieDetails,
+      details: details ?? this.details,
       reviews: reviews ?? this.reviews,
       casts: casts ?? this.casts,
-      error: error,
+      error: error ?? this.error,
     );
   }
 }
