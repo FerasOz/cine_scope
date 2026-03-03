@@ -3,9 +3,15 @@ import 'package:json_annotation/json_annotation.dart';
 part 'movie_details_model.g.dart';
 
 @JsonSerializable()
-class MovieDetailsModel {
+class MediaDetailsModel {
   final int id;
-  final String title;
+
+  @JsonKey(name: 'title')
+  final String? movieTitle;
+
+  @JsonKey(name: 'name')
+  final String? tvTitle;
+
   final String? overview;
 
   @JsonKey(name: 'poster_path')
@@ -23,7 +29,15 @@ class MovieDetailsModel {
   @JsonKey(name: 'release_date')
   final String? releaseDate;
 
-  final int runtime;
+  @JsonKey(name: 'first_air_date')
+  final String? firstAirDate;
+
+  /// movie
+  final int? runtime;
+
+  /// tv
+  @JsonKey(name: 'episode_run_time')
+  final List<int>? episodeRunTime;
 
   final List<GenreModel> genres;
 
@@ -32,33 +46,53 @@ class MovieDetailsModel {
 
   final double popularity;
 
-  MovieDetailsModel({
+  MediaDetailsModel({
     required this.id,
-    required this.title,
+    this.movieTitle,
+    this.tvTitle,
     this.overview,
     this.posterPath,
     this.backdropPath,
     required this.voteAverage,
     required this.voteCount,
     this.releaseDate,
-    required this.runtime,
+    this.firstAirDate,
+    this.runtime,
+    this.episodeRunTime,
     required this.genres,
     required this.originalLanguage,
     required this.popularity,
   });
 
-  factory MovieDetailsModel.fromJson(Map<String, dynamic> json) =>
-      _$MovieDetailsModelFromJson(json);
+  factory MediaDetailsModel.fromJson(Map<String, dynamic> json) =>
+      _$MediaDetailsModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MovieDetailsModelToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$MediaDetailsModelToJson(this);
 
-  /// Helpers
+  /// عنوان موحد
+  String get title => movieTitle ?? tvTitle ?? '';
 
-  String get year => releaseDate != null && releaseDate!.isNotEmpty
-      ? releaseDate!.split('-').first
-      : '';
+  /// تاريخ موحد
+  String? get date => releaseDate ?? firstAirDate;
 
-  String get genresText => genres.map((e) => e.name).join(', ');
+  String get year =>
+      date != null && date!.isNotEmpty
+          ? date!.split('-').first
+          : '';
+
+  /// مدة موحدة
+  int get duration {
+    if (runtime != null) return runtime!;
+    if (episodeRunTime != null &&
+        episodeRunTime!.isNotEmpty) {
+      return episodeRunTime!.first;
+    }
+    return 0;
+  }
+
+  String get genresText =>
+      genres.map((e) => e.name).join(', ');
 }
 
 @JsonSerializable()
