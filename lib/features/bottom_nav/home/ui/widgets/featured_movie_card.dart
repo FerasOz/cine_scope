@@ -1,17 +1,17 @@
 import 'package:cine_scope/core/helpers/spacing.dart';
 import 'package:cine_scope/core/routing/routes.dart';
-import 'package:cine_scope/features/bottom_nav/home/data/models/movie_model.dart';
+import 'package:cine_scope/features/bottom_nav/home/data/models/media_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FeaturedMovieCard extends StatelessWidget {
-  final MovieModel? movie;
+  final MediaModel? media;
 
-  const FeaturedMovieCard({super.key, this.movie});
+  const FeaturedMovieCard({super.key, this.media});
 
   @override
   Widget build(BuildContext context) {
-    if (movie == null) {
+    if (media == null) {
       return SizedBox(
         height: 240.h,
         child: const Center(child: CircularProgressIndicator()),
@@ -20,7 +20,11 @@ class FeaturedMovieCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, Routes.detailsScreen, arguments: movie!.id);
+        Navigator.pushNamed(
+          context,
+          Routes.detailsScreen,
+          arguments: {"id": media!.id, "type": media!.type},
+        );
       },
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -29,13 +33,11 @@ class FeaturedMovieCard extends StatelessWidget {
           child: Stack(
             children: [
               Image.network(
-                "https://image.tmdb.org/t/p/w780${movie!.backdropPath}",
+                "https://image.tmdb.org/t/p/w780${media!.backdropPath}",
                 height: 240.h,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
-
-              /// Gradient
               Container(
                 height: 240.h,
                 decoration: BoxDecoration(
@@ -50,7 +52,6 @@ class FeaturedMovieCard extends StatelessWidget {
                   ),
                 ),
               ),
-
               Positioned(
                 left: 16.w,
                 bottom: 16.h,
@@ -59,7 +60,7 @@ class FeaturedMovieCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      movie!.title,
+                      media!.title,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20.sp,
@@ -72,7 +73,7 @@ class FeaturedMovieCard extends StatelessWidget {
                         const Icon(Icons.star, color: Colors.amber, size: 18),
                         horizontalSpace(4),
                         Text(
-                          movie!.rating.toStringAsFixed(1),
+                          media!.rating.toStringAsFixed(1),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 14.sp,

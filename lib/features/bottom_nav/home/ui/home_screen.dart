@@ -26,30 +26,30 @@ class HomeScreen extends StatelessWidget {
                   const HomeHeader(),
                   verticalSpace(24),
 
-                  /// Featured Movie (أول فيلم من Trending)
+                  /// Featured
                   FeaturedMovieCard(
-                    movie: state.trendingMovies.isNotEmpty
-                        ? state.trendingMovies.first
+                    media: state.trending.isNotEmpty
+                        ? state.trending.first
                         : null,
                   ),
 
                   verticalSpace(32),
 
-                  MoviesSection(
+                  MovieSection(
                     title: "Trending Now",
-                    movies: state.trendingMovies,
+                    media: state.trending,
                     status: state.trendingStatus,
                   ),
 
-                  MoviesSection(
-                    title: "Popular Movies",
-                    movies: state.popularMovies,
+                  MovieSection(
+                    title: "Popular",
+                    media: state.popular,
                     status: state.popularStatus,
                   ),
 
-                  MoviesSection(
+                  MovieSection(
                     title: "Top Rated",
-                    movies: state.topRatedMovies,
+                    media: state.topRated,
                     status: state.topRatedStatus,
                   ),
 
