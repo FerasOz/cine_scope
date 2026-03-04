@@ -51,7 +51,7 @@ class AppRouters {
               BlocProvider(create: (_) => AppCubit()),
               BlocProvider(
                 create: (_) =>
-                    getIt<HomeCubit>()..loadHomeData(MediaType.movie),
+                    getIt<HomeCubit>()..loadHomeData(),
               ),
               BlocProvider(create: (_) => getIt<SearchCubit>()),
               BlocProvider(
