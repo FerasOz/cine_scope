@@ -24,7 +24,9 @@ class DetailsScreen extends StatelessWidget {
       body: BlocBuilder<MediaDetailsCubit, MediaDetailsState>(
         builder: (context, state) {
           if (state.status == RequestsStatus.loading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+              child: CircularProgressIndicator(color: Colors.orange),
+            );
           }
 
           if (state.status == RequestsStatus.error) {
