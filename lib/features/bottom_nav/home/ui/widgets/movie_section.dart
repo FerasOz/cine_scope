@@ -43,7 +43,7 @@ class MovieSection extends StatelessWidget {
 
   Widget _buildContent() {
     if (status == RequestsStatus.loading) {
-      return const Center(child: CircularProgressIndicator());
+      return const Center(child: CircularProgressIndicator(color: Colors.orange,));
     }
 
     if (status == RequestsStatus.error) {

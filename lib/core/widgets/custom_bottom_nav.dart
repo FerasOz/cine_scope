@@ -25,7 +25,7 @@ class CustomBottomNav extends StatelessWidget {
             icon: Icon(
               Icons.home,
               color: currentIndex == 0
-                  ? ColorsManager.textSecondary
+                  ? Colors.orange
                   : ColorsManager.textPrimary,
             ),
             screenName: 'Home',
@@ -37,7 +37,7 @@ class CustomBottomNav extends StatelessWidget {
             icon: Icon(
               Icons.search,
               color: currentIndex == 1
-                  ? ColorsManager.textSecondary
+                  ? Colors.orange
                   : ColorsManager.textPrimary,
             ),
             screenName: 'Search',
@@ -49,7 +49,7 @@ class CustomBottomNav extends StatelessWidget {
             icon: Icon(
               Icons.bookmark_outline,
               color: currentIndex == 2
-                  ? ColorsManager.textSecondary
+                  ? Colors.orange
                   : ColorsManager.textPrimary,
             ),
             screenName: 'Watch List',
@@ -92,7 +92,7 @@ class CustomBottomNav extends StatelessWidget {
                           screenName,
                           style: TextStyle(
                             fontSize: 14.sp,
-                            color: ColorsManager.textSecondary,
+                            color: Colors.orange,
                             fontWeight: FontWeight.w700,
                           ),
                         ),

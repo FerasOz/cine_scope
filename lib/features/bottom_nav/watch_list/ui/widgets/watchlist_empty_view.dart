@@ -20,7 +20,7 @@ class WatchlistEmptyView extends StatelessWidget {
             ),
             verticalSpace(20),
             Text(
-              "There Is No Movie Yet!",
+              "Watch list is empty!",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18.sp,
@@ -29,7 +29,7 @@ class WatchlistEmptyView extends StatelessWidget {
             ),
             verticalSpace(8),
             Text(
-              "Find your movie by type title,\ncategories, years, etc",
+              "Find your movies/series by type title,\ncategories, years, etc",
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.grey, fontSize: 13.sp),
             ),

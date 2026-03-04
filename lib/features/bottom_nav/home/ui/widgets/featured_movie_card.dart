@@ -14,7 +14,9 @@ class FeaturedMovieCard extends StatelessWidget {
     if (media == null) {
       return SizedBox(
         height: 240.h,
-        child: const Center(child: CircularProgressIndicator()),
+        child: const Center(
+          child: CircularProgressIndicator(color: Colors.orange),
+        ),
       );
     }
 
