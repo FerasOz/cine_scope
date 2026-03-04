@@ -9,8 +9,22 @@ class HomeCubit extends Cubit<HomeState> {
 
   HomeCubit(this._homeRepo) : super(HomeState());
 
-  Future<void> loadHomeData(MediaType type) async {
-    await Future.wait([getTrending(type), getPopular(type), getTopRated(type)]);
+
+  Future<void> loadHomeData({MediaType? type}) async {
+    final newType = type ?? state.currentType;
+
+    await Future.wait([
+      getTrending(newType),
+      getPopular(newType),
+      getTopRated(newType),
+    ]);
+  }
+
+  void changeType(MediaType type) {
+    if (state.currentType == type) return;
+
+    emit(state.copyWith(currentType: type));
+    loadHomeData(type: type);
   }
 
   Future<void> getTrending(MediaType type) async {
