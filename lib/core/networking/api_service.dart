@@ -55,7 +55,6 @@ abstract class ApiService {
   /// Search
   @GET(ApiConstants.search)
   Future<PaginatedMediaResponse> search(
-    @Path("media_type") String mediaType,
     @Query("query") String query,
     @Query("page") int page,
   );

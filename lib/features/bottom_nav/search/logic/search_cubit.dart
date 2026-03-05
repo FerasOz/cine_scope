@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:cine_scope/core/helpers/constants.dart';
 import 'package:cine_scope/features/bottom_nav/home/data/models/media_model.dart';
-import 'package:cine_scope/features/bottom_nav/search/data/search_repo.dart';
+import 'package:cine_scope/features/bottom_nav/search/data/repo/search_repo.dart';
 import 'package:cine_scope/features/bottom_nav/search/logic/search_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -46,11 +46,7 @@ class SearchCubit extends Cubit<SearchState> {
       ),
     );
 
-    final result = await _repo.search(
-      type: _currentType,
-      query: query,
-      page: 1,
-    );
+    final result = await _repo.search(query: query, page: 1);
 
     if (result.isSuccess) {
       emit(
@@ -76,11 +72,7 @@ class SearchCubit extends Cubit<SearchState> {
 
     final nextPage = state.currentPage + 1;
 
-    final result = await _repo.search(
-      type: _currentType,
-      query: _currentQuery,
-      page: nextPage,
-    );
+    final result = await _repo.search(query: _currentQuery, page: nextPage);
 
     if (result.isSuccess) {
       emit(

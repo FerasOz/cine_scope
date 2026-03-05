@@ -187,11 +187,7 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<PaginatedMediaResponse> search(
-    String mediaType,
-    String query,
-    int page,
-  ) async {
+  Future<PaginatedMediaResponse> search(String query, int page) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'query': query, r'page': page};
     final _headers = <String, dynamic>{};
@@ -200,7 +196,7 @@ class _ApiService implements ApiService {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/search/${mediaType}',
+            '/search/multi',
             queryParameters: queryParameters,
             data: _data,
           )

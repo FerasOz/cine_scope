@@ -11,16 +11,13 @@ class SearchRepo {
   SearchRepo(this._apiService);
 
   Future<ApiResult<PaginatedMediaResponse>> search({
-    required MediaType type,
     required String query,
     int page = 1,
   }) async {
     try {
-      final response = await _apiService.search(type.value, query, page);
+      final response = await _apiService.search(query, page);
 
-      for (var item in response.results) {
-        item.type = type;
-      }
+      response.results.removeWhere((item) => item.title.isEmpty);
 
       return ApiResult.success(response);
     } catch (error) {

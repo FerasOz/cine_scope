@@ -16,7 +16,7 @@ class ApiConstants {
   static const credits = "/{media_type}/{id}/credits";
 
   /// Search
-  static const search = "/search/{media_type}";
+  static const search = "/search/multi";
 
   /// Discover (genre)
   static const discover = "/discover/{media_type}";
