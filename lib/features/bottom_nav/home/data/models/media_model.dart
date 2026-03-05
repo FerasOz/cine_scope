@@ -31,7 +31,6 @@ class MediaModel {
   @JsonKey(name: 'first_air_date')
   final String? firstAirDate;
 
-  /// لا يدخل في json
   @JsonKey(ignore: true)
   MediaType? type;
 
@@ -52,10 +51,8 @@ class MediaModel {
 
   Map<String, dynamic> toJson() => _$MediaModelToJson(this);
 
-  /// عنوان موحد
   String get title => movieTitle ?? tvTitle ?? '';
 
-  /// تاريخ موحد
   String? get date => releaseDate ?? firstAirDate;
 
   String get year =>

@@ -4,7 +4,7 @@ import 'package:cine_scope/features/bottom_nav/details/data/repo/media_details_r
 import 'package:cine_scope/features/bottom_nav/home/data/repo/home_repo.dart';
 import 'package:cine_scope/features/bottom_nav/details/logic/media_details_cubit.dart';
 import 'package:cine_scope/features/bottom_nav/home/logic/home_cubit.dart';
-import 'package:cine_scope/features/bottom_nav/search/data/search_repo.dart';
+import 'package:cine_scope/features/bottom_nav/search/data/repo/search_repo.dart';
 import 'package:cine_scope/features/bottom_nav/search/logic/search_cubit.dart';
 import 'package:cine_scope/features/bottom_nav/watch_list/data/local/watchlist_local_data_source.dart';
 import 'package:cine_scope/features/bottom_nav/watch_list/data/repo/watchlist_repo.dart';
