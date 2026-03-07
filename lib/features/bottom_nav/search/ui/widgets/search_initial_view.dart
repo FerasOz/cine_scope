@@ -1,3 +1,4 @@
+import 'package:cine_scope/core/helpers/genre_constants.dart';
 import 'package:cine_scope/core/helpers/spacing.dart';
 import 'package:cine_scope/features/bottom_nav/search/logic/search_cubit.dart';
 import 'package:cine_scope/features/bottom_nav/search/ui/widgets/genre_chip.dart';
@@ -12,7 +13,7 @@ class SearchInitialView extends StatelessWidget {
   Widget build(BuildContext context) {
     final searchCubit = context.read<SearchCubit>();
 
-    final genres = {"Action": 28, "Drama": 18, "Sci-Fi": 878, "Comedy": 35};
+    final genres = GenreConstants.genres;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -34,9 +35,9 @@ class SearchInitialView extends StatelessWidget {
             runSpacing: 8,
             children: genres.entries.map((genre) {
               return GenreChip(
-                title: genre.key,
+                title: genre.value,
                 onTap: () {
-                  searchCubit.searchByGenre(genre.value);
+                  searchCubit.searchByGenre(genre.key);
                 },
               );
             }).toList(),
