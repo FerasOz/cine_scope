@@ -82,34 +82,40 @@ class SearchCubit extends Cubit<SearchState> {
           totalPages: result.data!.totalPages,
         ),
       );
-    }
-  }
-
-  Future<void> searchByGenre(int genreId) async {
-    emit(state.copyWith(status: RequestsStatus.loading, results: []));
-
-    _currentPage = 1;
-
-    final result = await _repo.discoverByGenre(
-      type: _currentType,
-      genreId: genreId,
-      page: _currentPage,
-    );
-
-    if (result.isSuccess) {
-      emit(
-        state.copyWith(
-          status: RequestsStatus.success,
-          results: result.data!.results,
-          currentPage: result.data!.page,
-          totalPages: result.data!.totalPages,
-        ),
-      );
     } else {
       emit(
         state.copyWith(
           status: RequestsStatus.error,
           error: result.error?.errorMessage,
+        ),
+      );
+    }
+  }
+
+  Future<void> searchByGenre(int genreId) async {
+    emit(state.copyWith(status: RequestsStatus.loading));
+
+    final movieResult = await _repo.discoverByGenre(
+      type: MediaType.movie,
+      genreId: genreId,
+      page: 1,
+    );
+
+    final tvResult = await _repo.discoverByGenre(
+      type: MediaType.tv,
+      genreId: genreId,
+      page: 1,
+    );
+
+    if (movieResult.isSuccess && tvResult.isSuccess) {
+      final results = [...movieResult.data!.results, ...tvResult.data!.results];
+
+      emit(state.copyWith(status: RequestsStatus.success, results: results));
+    } else {
+      emit(
+        state.copyWith(
+          status: RequestsStatus.error,
+          error: "Failed to load genre",
         ),
       );
     }
