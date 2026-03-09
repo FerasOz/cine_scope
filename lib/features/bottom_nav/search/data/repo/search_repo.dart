@@ -17,7 +17,9 @@ class SearchRepo {
     try {
       final response = await _apiService.search(query, page);
 
-      response.results.removeWhere((item) => item.title.isEmpty);
+      response.results.removeWhere(
+        (item) => item.title.isEmpty || item.posterPath == null,
+      );
 
       return ApiResult.success(response);
     } catch (error) {
