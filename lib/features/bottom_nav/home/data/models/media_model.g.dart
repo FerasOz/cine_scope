@@ -15,6 +15,7 @@ MediaModel _$MediaModelFromJson(Map<String, dynamic> json) => MediaModel(
   rating: (json['vote_average'] as num).toDouble(),
   releaseDate: json['release_date'] as String?,
   firstAirDate: json['first_air_date'] as String?,
+  mediaType: json['media_type'] as String?,
 );
 
 Map<String, dynamic> _$MediaModelToJson(MediaModel instance) =>
@@ -27,4 +28,5 @@ Map<String, dynamic> _$MediaModelToJson(MediaModel instance) =>
       'vote_average': instance.rating,
       'release_date': instance.releaseDate,
       'first_air_date': instance.firstAirDate,
+      'media_type': instance.mediaType,
     };

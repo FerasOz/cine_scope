@@ -31,8 +31,8 @@ class MediaModel {
   @JsonKey(name: 'first_air_date')
   final String? firstAirDate;
 
-  @JsonKey(ignore: true)
-  MediaType? type;
+  @JsonKey(name: 'media_type')
+  final String? mediaType;
 
   MediaModel({
     required this.id,
@@ -43,7 +43,7 @@ class MediaModel {
     required this.rating,
     this.releaseDate,
     this.firstAirDate,
-    this.type,
+    this.mediaType,
   });
 
   factory MediaModel.fromJson(Map<String, dynamic> json) =>
@@ -57,4 +57,11 @@ class MediaModel {
 
   String get year =>
       date != null && date!.isNotEmpty ? date!.split('-').first : '';
+
+  MediaType get type {
+    if (mediaType == 'tv') {
+      return MediaType.tv;
+    }
+    return MediaType.movie;
+  }
 }
