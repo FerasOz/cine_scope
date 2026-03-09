@@ -37,10 +37,6 @@ class SearchRepo {
         page,
       );
 
-      for (var item in response.results) {
-        item.type = type;
-      }
-
       return ApiResult.success(response);
     } catch (error) {
       return ApiResult.failure(ApiErrorHandler.handle(error));

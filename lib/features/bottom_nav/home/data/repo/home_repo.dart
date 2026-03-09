@@ -16,15 +16,9 @@ class HomeRepo {
     try {
       final response = await _apiService.getTrending(type.value, timeWindow);
 
-      // نحدد النوع لكل عنصر
-      for (var item in response.results) {
-        item.type = type;
-      }
-
       return ApiResult.success(response.results);
     } catch (error) {
-      return ApiResult.failure(ApiErrorHandler.handle(error));
-    }
+      return ApiResult.failure(ApiErrorHandler.handle(error));    }
   }
 
   Future<ApiResult<List<MediaModel>>> getPopular({
@@ -32,10 +26,6 @@ class HomeRepo {
   }) async {
     try {
       final response = await _apiService.getPopular(type.value);
-
-      for (var item in response.results) {
-        item.type = type;
-      }
 
       return ApiResult.success(response.results);
     } catch (error) {
@@ -48,10 +38,6 @@ class HomeRepo {
   }) async {
     try {
       final response = await _apiService.getTopRated(type.value);
-
-      for (var item in response.results) {
-        item.type = type;
-      }
 
       return ApiResult.success(response.results);
     } catch (error) {
