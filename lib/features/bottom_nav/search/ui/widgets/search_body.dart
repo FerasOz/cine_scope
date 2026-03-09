@@ -22,7 +22,9 @@ class SearchBody extends StatelessWidget {
 
         /// LOADING
         if (state.status == RequestsStatus.loading) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator(
+            color: Colors.orange,
+          ));
         }
 
         /// ERROR
