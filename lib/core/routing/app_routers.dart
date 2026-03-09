@@ -21,7 +21,7 @@ class AppRouters {
         return MaterialPageRoute(builder: (_) => const HomeScreen());
 
       case Routes.detailsScreen:
-        final args = settings.arguments as Map<String, dynamic>;
+        final args = settings.arguments as Map;
         final int id = args['id'];
         final MediaType type = args['type'];
 
