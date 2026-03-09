@@ -12,7 +12,6 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    HomeCubit cubit = context.read<HomeCubit>();
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Row(

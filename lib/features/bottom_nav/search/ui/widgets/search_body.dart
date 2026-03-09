@@ -1,5 +1,4 @@
 import 'package:cine_scope/core/helpers/constants.dart';
-import 'package:cine_scope/features/bottom_nav/home/data/models/media_model.dart';
 import 'package:cine_scope/features/bottom_nav/search/logic/search_cubit.dart';
 import 'package:cine_scope/features/bottom_nav/search/logic/search_state.dart';
 import 'package:cine_scope/features/bottom_nav/search/ui/widgets/no_results_view.dart';
@@ -46,8 +45,6 @@ class SearchBody extends StatelessWidget {
           itemCount: state.results.length,
           itemBuilder: (context, index) {
             final movie = state.results[index];
-
-            final cubit = context.read<SearchCubit>();
 
             return SearchResultItem(
               imageUrl: movie.posterPath ?? "",
