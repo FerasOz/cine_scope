@@ -16,6 +16,8 @@ class SearchCubit extends Cubit<SearchState> {
 
   Timer? _debounce;
 
+  MediaType get currentType => _currentType;
+
   void changeType(MediaType type) {
     _currentType = type;
     clear();
