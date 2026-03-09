@@ -1,5 +1,6 @@
 import 'package:cine_scope/core/helpers/spacing.dart';
 import 'package:cine_scope/core/routing/routes.dart';
+import 'package:cine_scope/features/bottom_nav/home/data/models/media_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,6 +10,7 @@ class SearchResultItem extends StatelessWidget {
   final int movieId;
   final double rating;
   final String? date;
+  final MediaType type;
 
   const SearchResultItem({
     super.key,
@@ -17,6 +19,7 @@ class SearchResultItem extends StatelessWidget {
     required this.title,
     required this.rating,
     required this.date,
+    required this.type,
   });
 
   String get year {
@@ -28,7 +31,11 @@ class SearchResultItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, Routes.detailsScreen, arguments: movieId);
+        Navigator.pushNamed(
+          context,
+          Routes.detailsScreen,
+          arguments: {"id": movieId, "type": type},
+        );
       },
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
