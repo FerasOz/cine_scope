@@ -32,7 +32,8 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   Future<void> search(String query) async {
-    if (query.isEmpty) {
+    
+    if (query.trim().length < 3) {
       emit(const SearchState());
       return;
     }
