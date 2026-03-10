@@ -4,7 +4,7 @@ import 'package:cine_scope/features/bottom_nav/details/ui/widgets/cast_tab.dart'
 import 'package:cine_scope/features/bottom_nav/details/ui/widgets/details_screen_sliver_app_bar.dart';
 import 'package:cine_scope/features/bottom_nav/details/ui/widgets/details_tabs.dart';
 import 'package:cine_scope/features/bottom_nav/details/ui/widgets/movie_info_section.dart';
-import 'package:cine_scope/features/bottom_nav/watch_list/data/models/watchlist_movie.dart';
+import 'package:cine_scope/features/bottom_nav/watch_list/data/models/watchlist_model.dart';
 import 'package:cine_scope/features/bottom_nav/watch_list/logic/watchlist_cubit.dart';
 import 'package:cine_scope/features/bottom_nav/watch_list/logic/watchlist_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,12 +60,13 @@ class DetailsScreen extends StatelessWidget {
                           color: isSaved ? Colors.orange : Colors.white,
                         ),
                         onPressed: () async {
-                          final watchItem = WatchlistMovie(
+                          final watchItem = WatchlistModel(
                             id: media.id,
                             title: media.title,
                             posterPath: media.posterPath,
+                            backdropPath: media.backdropPath,
                             voteAverage: media.voteAverage,
-                            // mediaType: media.mediaType,
+                            type: state.type!,
                           );
 
                           await watchCubit.toggleMovie(watchItem);

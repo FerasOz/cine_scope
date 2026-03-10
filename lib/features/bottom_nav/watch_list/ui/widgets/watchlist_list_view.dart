@@ -1,9 +1,9 @@
-import 'package:cine_scope/features/bottom_nav/watch_list/data/models/watchlist_movie.dart';
+import 'package:cine_scope/features/bottom_nav/watch_list/data/models/watchlist_model.dart';
 import 'package:cine_scope/features/bottom_nav/watch_list/ui/widgets/watchlist_item.dart';
 import 'package:flutter/material.dart';
 
 class WatchlistListView extends StatelessWidget {
-  final List<WatchlistMovie> movies;
+  final List<WatchlistModel> movies;
 
   const WatchlistListView({super.key, required this.movies});
 

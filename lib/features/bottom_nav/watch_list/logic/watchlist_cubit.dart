@@ -1,6 +1,6 @@
 import 'package:cine_scope/features/bottom_nav/watch_list/data/repo/watchlist_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cine_scope/features/bottom_nav/watch_list/data/models/watchlist_movie.dart';
+import 'package:cine_scope/features/bottom_nav/watch_list/data/models/watchlist_model.dart';
 import 'watchlist_state.dart';
 
 class WatchlistCubit extends Cubit<WatchlistState> {
@@ -13,7 +13,7 @@ class WatchlistCubit extends Cubit<WatchlistState> {
     emit(state.copyWith(movies: movies));
   }
 
-  Future<void> toggleMovie(WatchlistMovie movie) async {
+  Future<void> toggleMovie(WatchlistModel movie) async {
     await repo.toggleMovie(movie);
 
     final updatedMovies = repo.getWatchlist();

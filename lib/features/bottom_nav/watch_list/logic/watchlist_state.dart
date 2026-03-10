@@ -1,11 +1,11 @@
-import 'package:cine_scope/features/bottom_nav/watch_list/data/models/watchlist_movie.dart';
+import 'package:cine_scope/features/bottom_nav/watch_list/data/models/watchlist_model.dart';
 
 class WatchlistState {
-  final List<WatchlistMovie> movies;
+  final List<WatchlistModel> movies;
 
   const WatchlistState({this.movies = const []});
 
-  WatchlistState copyWith({List<WatchlistMovie>? movies}) {
+  WatchlistState copyWith({List<WatchlistModel>? movies}) {
     return WatchlistState(movies: movies ?? this.movies);
   }
 }
