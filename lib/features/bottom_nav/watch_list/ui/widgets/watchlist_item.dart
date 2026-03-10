@@ -1,12 +1,13 @@
 import 'package:cine_scope/core/helpers/spacing.dart';
-import 'package:cine_scope/features/bottom_nav/watch_list/data/models/watchlist_movie.dart';
+import 'package:cine_scope/core/routing/routes.dart';
+import 'package:cine_scope/features/bottom_nav/watch_list/data/models/watchlist_model.dart';
 import 'package:cine_scope/features/bottom_nav/watch_list/logic/watchlist_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WatchlistItem extends StatelessWidget {
-  final WatchlistMovie movie;
+  final WatchlistModel movie;
 
   const WatchlistItem({super.key, required this.movie});
 
@@ -14,63 +15,72 @@ class WatchlistItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = context.read<WatchlistCubit>();
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(12.r),
-          child: Image.network(
-            movie.posterPath != null
-                ? "https://image.tmdb.org/t/p/w500${movie.posterPath}"
-                : "https://via.placeholder.com/500x750?text=No+Image",
-            width: 80.w,
-            height: 110.h,
-            fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          Routes.detailsScreen,
+          arguments: {"id": movie.id, "type": movie.safeType},
+        );
+      },
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(12.r),
+            child: Image.network(
+              movie.posterPath != null
+                  ? "https://image.tmdb.org/t/p/w500${movie.posterPath}"
+                  : "https://via.placeholder.com/500x750?text=No+Image",
+              width: 80.w,
+              height: 110.h,
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        horizontalSpace(12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                movie.title,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              verticalSpace(6),
-              Row(
-                children: [
-                  const Icon(Icons.star, color: Colors.amber, size: 16),
-                  horizontalSpace(4),
-                  Text(
-                    movie.voteAverage.toStringAsFixed(1),
-                    style: const TextStyle(color: Colors.white),
+          horizontalSpace(12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  movie.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
                   ),
-                ],
-              ),
-            ],
+                ),
+                verticalSpace(6),
+                Row(
+                  children: [
+                    const Icon(Icons.star, color: Colors.amber, size: 16),
+                    horizontalSpace(4),
+                    Text(
+                      movie.voteAverage.toStringAsFixed(1),
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-        IconButton(
-          icon: const Icon(Icons.bookmark_remove, color: Colors.redAccent),
-          onPressed: () {
-            cubit.toggleMovie(movie);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text("Removed from Watchlist"),
-                backgroundColor: Colors.redAccent,
-                duration: const Duration(seconds: 2),
-              ),
-            );
-          },
-        ),
-      ],
+          IconButton(
+            icon: const Icon(Icons.bookmark_remove, color: Colors.redAccent),
+            onPressed: () {
+              cubit.toggleMovie(movie);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("Removed from Watchlist"),
+                  backgroundColor: Colors.redAccent,
+                  duration: const Duration(seconds: 2),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }
