@@ -28,6 +28,7 @@ class MediaDetailsCubit extends Cubit<MediaDetailsState> {
           details: detailsResult.data,
           reviews: reviewsResult.data?.results ?? [],
           casts: castResult.data?.cast ?? [],
+          type: type,
         ),
       );
     } else {
