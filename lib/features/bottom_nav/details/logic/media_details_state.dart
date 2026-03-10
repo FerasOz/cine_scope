@@ -2,12 +2,14 @@ import 'package:cine_scope/core/helpers/constants.dart';
 import 'package:cine_scope/features/bottom_nav/details/data/models/casts/cast_model.dart';
 import 'package:cine_scope/features/bottom_nav/details/data/models/details/movie_details_model.dart';
 import 'package:cine_scope/features/bottom_nav/details/data/models/review/review_model.dart';
+import 'package:cine_scope/features/bottom_nav/home/data/models/media_model.dart';
 
 class MediaDetailsState {
   final RequestsStatus status;
   final MediaDetailsModel? details;
   final List<ReviewModel>? reviews;
   final List<CastModel>? casts;
+  final MediaType? type;
   final String? error;
 
   const MediaDetailsState({
@@ -15,6 +17,7 @@ class MediaDetailsState {
     this.details,
     this.reviews,
     this.casts,
+    this.type,
     this.error,
   });
 
@@ -23,6 +26,7 @@ class MediaDetailsState {
     MediaDetailsModel? details,
     List<ReviewModel>? reviews,
     List<CastModel>? casts,
+    MediaType? type,
     String? error,
   }) {
     return MediaDetailsState(
@@ -30,6 +34,7 @@ class MediaDetailsState {
       details: details ?? this.details,
       reviews: reviews ?? this.reviews,
       casts: casts ?? this.casts,
+      type: type ?? this.type,
       error: error ?? this.error,
     );
   }
