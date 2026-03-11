@@ -15,6 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppRouters {
+  WatchlistCubit watchlistCubit = getIt<WatchlistCubit>();
+
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.homeScreen:
@@ -32,7 +34,7 @@ class AppRouters {
                 create: (_) =>
                     getIt<MediaDetailsCubit>()..getDetails(type: type, id: id),
               ),
-              BlocProvider(create: (_) => getIt<WatchlistCubit>()),
+              BlocProvider.value(value: watchlistCubit),
             ],
             child: const DetailsScreen(),
           ),
@@ -49,14 +51,9 @@ class AppRouters {
           builder: (_) => MultiBlocProvider(
             providers: [
               BlocProvider(create: (_) => AppCubit()),
-              BlocProvider(
-                create: (_) =>
-                    getIt<HomeCubit>()..loadHomeData(),
-              ),
+              BlocProvider(create: (_) => getIt<HomeCubit>()..loadHomeData()),
               BlocProvider(create: (_) => getIt<SearchCubit>()),
-              BlocProvider(
-                create: (_) => getIt<WatchlistCubit>()..loadWatchlist(),
-              ),
+              BlocProvider.value(value: watchlistCubit),
             ],
             child: const AppLayout(),
           ),
