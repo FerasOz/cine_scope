@@ -25,9 +25,10 @@ class _ApiService implements ApiService {
   Future<PaginatedMediaResponse> getTrending(
     String mediaType,
     String timeWindow,
+    int page,
   ) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'page': page};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<PaginatedMediaResponse>(
@@ -52,9 +53,9 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<PaginatedMediaResponse> getPopular(String mediaType) async {
+  Future<PaginatedMediaResponse> getPopular(String mediaType, int page) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'page': page};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<PaginatedMediaResponse>(
@@ -79,9 +80,9 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<PaginatedMediaResponse> getTopRated(String mediaType) async {
+  Future<PaginatedMediaResponse> getTopRated(String mediaType, int page) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'page': page};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<PaginatedMediaResponse>(

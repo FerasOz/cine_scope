@@ -17,18 +17,21 @@ abstract class ApiService {
   Future<PaginatedMediaResponse> getTrending(
     @Path("media_type") String mediaType, // movie | tv
     @Path("time_window") String timeWindow, // day | week
+    @Query("page") int page,
   );
 
   /// Popular
   @GET(ApiConstants.popular)
   Future<PaginatedMediaResponse> getPopular(
     @Path("media_type") String mediaType,
+    @Query("page") int page,
   );
 
   /// Top Rated
   @GET(ApiConstants.topRated)
   Future<PaginatedMediaResponse> getTopRated(
     @Path("media_type") String mediaType,
+    @Query("page") int page,
   );
 
   /// Details
