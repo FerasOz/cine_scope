@@ -12,9 +12,10 @@ class HomeRepo {
   Future<ApiResult<List<MediaModel>>> getTrending({
     required MediaType type,
     String timeWindow = "day",
+    int page = 1,
   }) async {
     try {
-      final response = await _apiService.getTrending(type.value, timeWindow);
+      final response = await _apiService.getTrending(type.value, timeWindow, page);
 
       return ApiResult.success(response.results);
     } catch (error) {
@@ -23,9 +24,10 @@ class HomeRepo {
 
   Future<ApiResult<List<MediaModel>>> getPopular({
     required MediaType type,
+    int page = 1,
   }) async {
     try {
-      final response = await _apiService.getPopular(type.value);
+      final response = await _apiService.getPopular(type.value, page);
 
       return ApiResult.success(response.results);
     } catch (error) {
@@ -35,9 +37,10 @@ class HomeRepo {
 
   Future<ApiResult<List<MediaModel>>> getTopRated({
     required MediaType type,
+    int page = 1,
   }) async {
     try {
-      final response = await _apiService.getTopRated(type.value);
+      final response = await _apiService.getTopRated(type.value, page);
 
       return ApiResult.success(response.results);
     } catch (error) {
