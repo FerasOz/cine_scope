@@ -9,6 +9,19 @@ class HomeCubit extends Cubit<HomeState> {
 
   HomeCubit(this._homeRepo) : super(HomeState());
 
+  int trendingPage = 1;
+  int popularPage = 1;
+  int topRatedPage = 1;
+
+  Future<void> loadMore() async {
+    trendingPage++;
+    popularPage++;
+    topRatedPage++;
+
+    await getTrending(state.currentType, page: trendingPage);
+    await getPopular(state.currentType, page: popularPage);
+    await getTopRated(state.currentType, page: topRatedPage);
+  }
 
   Future<void> loadHomeData({MediaType? type}) async {
     final newType = type ?? state.currentType;
@@ -23,14 +36,26 @@ class HomeCubit extends Cubit<HomeState> {
   void changeType(MediaType type) {
     if (state.currentType == type) return;
 
-    emit(state.copyWith(currentType: type));
+    trendingPage = 1;
+    popularPage = 1;
+    topRatedPage = 1;
+
+    emit(
+      state.copyWith(
+        currentType: type,
+        trending: [],
+        popular: [],
+        topRated: [],
+      ),
+    );
+
     loadHomeData(type: type);
   }
 
-  Future<void> getTrending(MediaType type) async {
+  Future<void> getTrending(MediaType type, {int page = 1}) async {
     emit(state.copyWith(trendingStatus: RequestsStatus.loading));
 
-    final result = await _homeRepo.getTrending(type: type);
+    final result = await _homeRepo.getTrending(type: type, page: page);
 
     if (result.isSuccess) {
       emit(
@@ -49,10 +74,10 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  Future<void> getPopular(MediaType type) async {
+  Future<void> getPopular(MediaType type, {int page = 1}) async {
     emit(state.copyWith(popularStatus: RequestsStatus.loading));
 
-    final result = await _homeRepo.getPopular(type: type);
+    final result = await _homeRepo.getPopular(type: type, page: page);
 
     if (result.isSuccess) {
       emit(
@@ -71,10 +96,10 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  Future<void> getTopRated(MediaType type) async {
+  Future<void> getTopRated(MediaType type, {int page = 1}) async {
     emit(state.copyWith(topRatedStatus: RequestsStatus.loading));
 
-    final result = await _homeRepo.getTopRated(type: type);
+    final result = await _homeRepo.getTopRated(type: type, page: page);
 
     if (result.isSuccess) {
       emit(
