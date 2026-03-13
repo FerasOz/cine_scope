@@ -2,6 +2,7 @@ import 'package:cine_scope/core/helpers/constants.dart';
 import 'package:cine_scope/core/helpers/spacing.dart';
 import 'package:cine_scope/core/styles/colors.dart';
 import 'package:cine_scope/features/bottom_nav/home/data/models/media_model.dart';
+import 'package:cine_scope/features/bottom_nav/home/ui/widgets/horizontal_media_shimmer.dart';
 import 'package:cine_scope/features/bottom_nav/home/ui/widgets/horizontal_movies_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -43,7 +44,7 @@ class MovieSection extends StatelessWidget {
 
   Widget _buildContent() {
     if (status == RequestsStatus.loading) {
-      return const Center(child: CircularProgressIndicator(color: Colors.orange,));
+      return const HorizontalMediaShimmer();
     }
 
     if (status == RequestsStatus.error) {

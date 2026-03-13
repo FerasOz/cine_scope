@@ -3,6 +3,7 @@ import 'package:cine_scope/core/routing/routes.dart';
 import 'package:cine_scope/features/bottom_nav/home/data/models/media_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shimmer/shimmer.dart';
 
 class FeaturedMovieCard extends StatelessWidget {
   final MediaModel? media;
@@ -12,10 +13,16 @@ class FeaturedMovieCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (media == null) {
-      return SizedBox(
-        height: 240.h,
-        child: const Center(
-          child: CircularProgressIndicator(color: Colors.orange),
+      return Shimmer.fromColors(
+        baseColor: Colors.grey.shade800,
+        highlightColor: Colors.grey.shade700,
+        child: Container(
+          height: 240.h,
+          margin: EdgeInsets.symmetric(horizontal: 16.w),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20.r),
+            color: Colors.grey,
+          ),
         ),
       );
     }
