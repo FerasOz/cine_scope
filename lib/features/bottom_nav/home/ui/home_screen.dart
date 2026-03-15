@@ -20,8 +20,12 @@ class HomeScreen extends StatelessWidget {
         child: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
             return LazyLoadScrollView(
-              onEndOfPage: () { 
-                context.read<HomeCubit>().loadMore();
+              onEndOfPage: () {
+                final cubit = context.read<HomeCubit>();
+
+                if (!cubit.isClosed) {
+                  cubit.loadMorePopular();
+                }
               },
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
@@ -30,34 +34,34 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     const HomeHeader(),
                     verticalSpace(24),
-              
+
                     /// Featured
                     FeaturedMovieCard(
                       media: state.trending.isNotEmpty
                           ? state.trending.first
                           : null,
                     ),
-              
+
                     verticalSpace(32),
-              
+
                     MovieSection(
                       title: "Trending Now",
                       media: state.trending,
                       status: state.trendingStatus,
                     ),
-              
+
                     MovieSection(
                       title: "Popular",
                       media: state.popular,
                       status: state.popularStatus,
                     ),
-              
+
                     MovieSection(
                       title: "Top Rated",
                       media: state.topRated,
                       status: state.topRatedStatus,
                     ),
-              
+
                     verticalSpace(24),
                   ],
                 ),

@@ -43,7 +43,7 @@ class MovieSection extends StatelessWidget {
   }
 
   Widget _buildContent() {
-    if (status == RequestsStatus.loading) {
+    if (status == RequestsStatus.loading && media!.isEmpty) {
       return const HorizontalMediaShimmer();
     }
 
