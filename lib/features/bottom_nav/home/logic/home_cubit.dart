@@ -1,7 +1,7 @@
 import 'package:cine_scope/features/bottom_nav/home/data/models/media_model.dart';
-import 'package:cine_scope/features/bottom_nav/home/data/repo/home_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cine_scope/core/helpers/constants.dart';
+import 'package:cine_scope/features/bottom_nav/home/data/repo/home_repo.dart';
 import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
@@ -9,36 +9,84 @@ class HomeCubit extends Cubit<HomeState> {
 
   HomeCubit(this._homeRepo) : super(HomeState());
 
-  int trendingPage = 1;
-  int popularPage = 1;
-  int topRatedPage = 1;
-
-  Future<void> loadMore() async {
-    trendingPage++;
-    popularPage++;
-    topRatedPage++;
-
-    await getTrending(state.currentType, page: trendingPage);
-    await getPopular(state.currentType, page: popularPage);
-    await getTopRated(state.currentType, page: topRatedPage);
-  }
+  int _popularPage = 1;
+  bool _isLoadingMore = false;
 
   Future<void> loadHomeData({MediaType? type}) async {
     final newType = type ?? state.currentType;
 
-    await Future.wait([
-      getTrending(newType),
-      getPopular(newType),
-      getTopRated(newType),
+    emit(
+      state.copyWith(
+        trendingStatus: RequestsStatus.loading,
+        popularStatus: RequestsStatus.loading,
+        topRatedStatus: RequestsStatus.loading,
+      ),
+    );
+
+    final results = await Future.wait([
+      _homeRepo.getTrending(type: newType),
+      _homeRepo.getPopular(type: newType),
+      _homeRepo.getTopRated(type: newType),
     ]);
+
+    final trendingResult = results[0];
+    final popularResult = results[1];
+    final topRatedResult = results[2];
+
+    emit(
+      state.copyWith(
+        currentType: newType,
+
+        trendingStatus: trendingResult.isSuccess
+            ? RequestsStatus.success
+            : RequestsStatus.error,
+
+        popularStatus: popularResult.isSuccess
+            ? RequestsStatus.success
+            : RequestsStatus.error,
+
+        topRatedStatus: topRatedResult.isSuccess
+            ? RequestsStatus.success
+            : RequestsStatus.error,
+
+        trending: trendingResult.data ?? [],
+        popular: popularResult.data ?? [],
+        topRated: topRatedResult.data ?? [],
+
+        error:
+            trendingResult.error?.errorMessage ??
+            popularResult.error?.errorMessage ??
+            topRatedResult.error?.errorMessage,
+      ),
+    );
+  }
+
+  /// PAGINATION (POPULAR ONLY)
+  Future<void> loadMorePopular() async {
+    if (_isLoadingMore) return;
+
+    _isLoadingMore = true;
+
+    final nextPage = _popularPage + 1;
+
+    final result = await _homeRepo.getPopular(
+      type: state.currentType,
+      page: nextPage,
+    );
+
+    if (result.isSuccess) {
+      _popularPage = nextPage;
+
+      emit(state.copyWith(popular: [...state.popular, ...result.data!]));
+    }
+
+    _isLoadingMore = false;
   }
 
   void changeType(MediaType type) {
     if (state.currentType == type) return;
 
-    trendingPage = 1;
-    popularPage = 1;
-    topRatedPage = 1;
+    _popularPage = 1;
 
     emit(
       state.copyWith(
@@ -50,71 +98,5 @@ class HomeCubit extends Cubit<HomeState> {
     );
 
     loadHomeData(type: type);
-  }
-
-  Future<void> getTrending(MediaType type, {int page = 1}) async {
-    emit(state.copyWith(trendingStatus: RequestsStatus.loading));
-
-    final result = await _homeRepo.getTrending(type: type, page: page);
-
-    if (result.isSuccess) {
-      emit(
-        state.copyWith(
-          trendingStatus: RequestsStatus.success,
-          trending: result.data!,
-        ),
-      );
-    } else {
-      emit(
-        state.copyWith(
-          trendingStatus: RequestsStatus.error,
-          error: result.error?.errorMessage,
-        ),
-      );
-    }
-  }
-
-  Future<void> getPopular(MediaType type, {int page = 1}) async {
-    emit(state.copyWith(popularStatus: RequestsStatus.loading));
-
-    final result = await _homeRepo.getPopular(type: type, page: page);
-
-    if (result.isSuccess) {
-      emit(
-        state.copyWith(
-          popularStatus: RequestsStatus.success,
-          popular: result.data!,
-        ),
-      );
-    } else {
-      emit(
-        state.copyWith(
-          popularStatus: RequestsStatus.error,
-          error: result.error?.errorMessage,
-        ),
-      );
-    }
-  }
-
-  Future<void> getTopRated(MediaType type, {int page = 1}) async {
-    emit(state.copyWith(topRatedStatus: RequestsStatus.loading));
-
-    final result = await _homeRepo.getTopRated(type: type, page: page);
-
-    if (result.isSuccess) {
-      emit(
-        state.copyWith(
-          topRatedStatus: RequestsStatus.success,
-          topRated: result.data!,
-        ),
-      );
-    } else {
-      emit(
-        state.copyWith(
-          topRatedStatus: RequestsStatus.error,
-          error: result.error?.errorMessage,
-        ),
-      );
-    }
   }
 }
