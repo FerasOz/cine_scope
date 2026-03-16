@@ -11,6 +11,7 @@ class SearchCubit extends Cubit<SearchState> {
   String _currentQuery = "";
   int _currentPage = 1;
   MediaType _currentType = MediaType.movie;
+  bool _isLoadingMore = false;
 
   SearchCubit(this._repo) : super(const SearchState());
 
@@ -32,7 +33,6 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   Future<void> search(String query) async {
-    
     if (query.trim().length < 3) {
       emit(const SearchState());
       return;
@@ -71,7 +71,10 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   Future<void> loadMore() async {
+    if (_isLoadingMore) return;
     if (state.currentPage >= state.totalPages) return;
+
+    _isLoadingMore = true;
 
     final nextPage = state.currentPage + 1;
 
@@ -85,14 +88,9 @@ class SearchCubit extends Cubit<SearchState> {
           totalPages: result.data!.totalPages,
         ),
       );
-    } else {
-      emit(
-        state.copyWith(
-          status: RequestsStatus.error,
-          error: result.error?.errorMessage,
-        ),
-      );
     }
+
+    _isLoadingMore = false;
   }
 
   Future<void> searchByGenre(int genreId) async {
