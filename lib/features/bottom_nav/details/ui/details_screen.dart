@@ -2,6 +2,7 @@ import 'package:cine_scope/features/bottom_nav/details/ui/widgets/Reviews_tab.da
 import 'package:cine_scope/features/bottom_nav/details/ui/widgets/about_movie_tab.dart';
 import 'package:cine_scope/features/bottom_nav/details/ui/widgets/cast_tab.dart';
 import 'package:cine_scope/features/bottom_nav/details/ui/widgets/details_screen_sliver_app_bar.dart';
+import 'package:cine_scope/features/bottom_nav/details/ui/widgets/details_shimmer.dart';
 import 'package:cine_scope/features/bottom_nav/details/ui/widgets/details_tabs.dart';
 import 'package:cine_scope/features/bottom_nav/details/ui/widgets/movie_info_section.dart';
 import 'package:cine_scope/features/bottom_nav/watch_list/data/models/watchlist_model.dart';
@@ -24,9 +25,7 @@ class DetailsScreen extends StatelessWidget {
       body: BlocBuilder<MediaDetailsCubit, MediaDetailsState>(
         builder: (context, state) {
           if (state.status == RequestsStatus.loading) {
-            return const Center(
-              child: CircularProgressIndicator(color: Colors.orange),
-            );
+            return DetailsShimmer();
           }
 
           if (state.status == RequestsStatus.error) {
