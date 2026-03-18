@@ -21,7 +21,14 @@ class DetailsSliverAppBar extends StatelessWidget {
         background: Stack(
           fit: StackFit.expand,
           children: [
-            Image.network(imageUrl, fit: BoxFit.cover),
+            Image.network(
+              imageUrl,
+              fit: BoxFit.cover,
+              loadingBuilder: (context, child, progress) {
+                if (progress == null) return child;
+                return Container(color: Colors.grey.shade800);
+              },
+            ),
             Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
