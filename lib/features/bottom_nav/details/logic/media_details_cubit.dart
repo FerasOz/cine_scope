@@ -10,8 +10,15 @@ class MediaDetailsCubit extends Cubit<MediaDetailsState> {
 
   MediaDetailsCubit(this._repo) : super(const MediaDetailsState());
 
+  int _reviewsPage = 1;
+  bool _isLoadingMoreReviews = false;
+  bool _hasMoreReviews = true;
+
   Future<void> getDetails({required MediaType type, required int id}) async {
     emit(state.copyWith(status: RequestsStatus.loading));
+
+    _reviewsPage = 1;
+    _hasMoreReviews = true;
 
     final detailsResult = await _repo.getDetails(type: type, id: id);
 
@@ -43,4 +50,36 @@ class MediaDetailsCubit extends Cubit<MediaDetailsState> {
       );
     }
   }
+
+  Future<void> loadMoreReviews() async {
+  if (_isLoadingMoreReviews || !_hasMoreReviews) return;
+
+  _isLoadingMoreReviews = true;
+
+  final nextPage = _reviewsPage + 1;
+
+  final result = await _repo.getReviews(
+    type: state.type!,
+    id: state.details!.id,
+    page: nextPage,
+  );
+
+  if (result.isSuccess) {
+    final newReviews = result.data?.results ?? [];
+
+    _reviewsPage = nextPage;
+
+    if (newReviews.isEmpty) {
+      _hasMoreReviews = false;
+    }
+
+    emit(
+      state.copyWith(
+        reviews: [...?state.reviews, ...newReviews],
+      ),
+    );
+  }
+
+  _isLoadingMoreReviews = false;
+}
 }

@@ -28,9 +28,10 @@ class MediaDetailsRepo {
   Future<ApiResult<ReviewsResponseModel>> getReviews({
     required MediaType type,
     required int id,
+    int page = 1,
   }) async {
     try {
-      final response = await _apiService.getReviews(type.value, id);
+      final response = await _apiService.getReviews(type.value, id, page);
 
       return ApiResult.success(response);
     } catch (error) {
