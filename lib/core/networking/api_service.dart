@@ -46,6 +46,7 @@ abstract class ApiService {
   Future<ReviewsResponseModel> getReviews(
     @Path("media_type") String mediaType,
     @Path("id") int id,
+    @Query("page") int page,
   );
 
   /// Credits
