@@ -1,16 +1,16 @@
 import 'package:cine_scope/core/di/dependency_injection.dart';
 import 'package:cine_scope/core/routing/routes.dart';
-import 'package:cine_scope/features/bottom_nav/details/logic/media_details_cubit.dart';
-import 'package:cine_scope/features/bottom_nav/details/ui/details_screen.dart';
-import 'package:cine_scope/features/bottom_nav/home/data/models/media_model.dart';
-import 'package:cine_scope/features/bottom_nav/home/logic/home_cubit.dart';
-import 'package:cine_scope/features/bottom_nav/home/ui/home_screen.dart';
-import 'package:cine_scope/features/bottom_nav/search/logic/search_cubit.dart';
-import 'package:cine_scope/features/bottom_nav/search/ui/search_screen.dart';
-import 'package:cine_scope/features/bottom_nav/watch_list/logic/watchlist_cubit.dart';
-import 'package:cine_scope/features/bottom_nav/watch_list/ui/watchlist_screen.dart';
-import 'package:cine_scope/features/app_layout.dart';
-import 'package:cine_scope/features/cubit/app_cubit.dart';
+import 'package:cine_scope/features/details/logic/media_details_cubit.dart';
+import 'package:cine_scope/features/details/ui/details_screen.dart';
+import 'package:cine_scope/features/home/data/models/media_model.dart';
+import 'package:cine_scope/features/home/logic/home_cubit.dart';
+import 'package:cine_scope/features/home/ui/home_screen.dart';
+import 'package:cine_scope/features/search/logic/search_cubit.dart';
+import 'package:cine_scope/features/search/ui/search_screen.dart';
+import 'package:cine_scope/features/watch_list/logic/watchlist_cubit.dart';
+import 'package:cine_scope/features/watch_list/ui/watchlist_screen.dart';
+import 'package:cine_scope/app/layout/app_layout.dart';
+import 'package:cine_scope/app/app_cubit/app_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

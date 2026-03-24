@@ -1,4 +1,4 @@
-import 'package:cine_scope/features/bottom_nav/home/data/models/media_model.dart';
+import 'package:cine_scope/features/home/data/models/media_model.dart';
 
 enum RequestsStatus { initial, loading, success, error }
 
