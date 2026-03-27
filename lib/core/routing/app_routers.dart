@@ -53,7 +53,7 @@ class AppRouters {
               BlocProvider(create: (_) => AppCubit()),
               BlocProvider(create: (_) => getIt<HomeCubit>()..loadHomeData()),
               BlocProvider(create: (_) => getIt<SearchCubit>()),
-              BlocProvider.value(value: watchlistCubit),
+              BlocProvider(create: (_) => getIt<WatchlistCubit>()),
             ],
             child: const AppLayout(),
           ),
