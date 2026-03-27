@@ -20,7 +20,7 @@ Future<void> setUpGetIt() async {
   getIt.registerLazySingleton<ApiService>(() => ApiService(dio));
 
   getIt.registerLazySingleton<HomeRepo>(() => HomeRepo(getIt<ApiService>()));
-  getIt.registerLazySingleton<HomeCubit>(() => HomeCubit(getIt()));
+  getIt.registerFactory<HomeCubit>(() => HomeCubit(getIt()));
 
   getIt.registerLazySingleton<MediaDetailsRepo>(
     () => MediaDetailsRepo(getIt<ApiService>()),
@@ -40,5 +40,5 @@ Future<void> setUpGetIt() async {
 
   getIt.registerLazySingleton(() => WatchlistRepo(getIt()));
 
-  getIt.registerFactory(() => WatchlistCubit(getIt()));
+  getIt.registerLazySingleton<WatchlistCubit>(() => WatchlistCubit(getIt()));
 }
