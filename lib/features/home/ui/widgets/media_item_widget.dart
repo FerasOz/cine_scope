@@ -1,3 +1,5 @@
+import 'package:cine_scope/core/helpers/constants.dart';
+import 'package:cine_scope/core/widgets/custom_cached_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -36,11 +38,13 @@ class MediaItemWidget extends StatelessWidget {
           child: Stack(
             children: [
               Positioned.fill(
-                child: Image.network(
-                  item.posterPath != null
-                      ? "https://image.tmdb.org/t/p/w500${item.posterPath}"
-                      : "https://via.placeholder.com/500x750?text=No+Image",
+                child: CustomCachedImage(
+                  imageUrl: item.posterPath != null
+                      ? "$imageBaseUrl${item.posterPath}"
+                      : "",
                   fit: BoxFit.cover,
+                  width: 150.w,
+                  height: double.infinity,
                 ),
               ),
               Positioned(

@@ -1,5 +1,8 @@
+import 'package:cine_scope/core/helpers/constants.dart';
 import 'package:cine_scope/core/styles/colors.dart';
+import 'package:cine_scope/core/widgets/custom_cached_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DetailsSliverAppBar extends StatelessWidget {
   final String? imagePath;
@@ -9,11 +12,11 @@ class DetailsSliverAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final imageUrl = "https://image.tmdb.org/t/p/w780$imagePath";
+    final imageUrl = "$imageBaseUrl$imagePath";
 
     return SliverAppBar(
       backgroundColor: ColorsManager.primary,
-      expandedHeight: 320,
+      expandedHeight: 320.h,
       pinned: true,
       leading: const BackButton(color: Colors.white),
       actions: action != null ? [action!] : null,
@@ -21,13 +24,11 @@ class DetailsSliverAppBar extends StatelessWidget {
         background: Stack(
           fit: StackFit.expand,
           children: [
-            Image.network(
-              imageUrl,
+            CustomCachedImage(
+              imageUrl: imageUrl,
+              width: double.infinity,
+              height: 320.h,
               fit: BoxFit.cover,
-              loadingBuilder: (context, child, progress) {
-                if (progress == null) return child;
-                return Container(color: Colors.grey.shade800);
-              },
             ),
             Container(
               decoration: BoxDecoration(

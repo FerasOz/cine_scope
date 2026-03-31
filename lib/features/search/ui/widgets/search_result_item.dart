@@ -1,5 +1,7 @@
+import 'package:cine_scope/core/helpers/constants.dart';
 import 'package:cine_scope/core/helpers/spacing.dart';
 import 'package:cine_scope/core/routing/routes.dart';
+import 'package:cine_scope/core/widgets/custom_cached_image.dart';
 import 'package:cine_scope/features/home/data/models/media_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -44,12 +46,7 @@ class SearchResultItem extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(12.r),
               child: imageUrl.isNotEmpty
-                  ? Image.network(
-                      "https://image.tmdb.org/t/p/w500$imageUrl",
-                      width: 80.w,
-                      height: 110.h,
-                      fit: BoxFit.cover,
-                    )
+                  ? CustomCachedImage(imageUrl: "$imageBaseUrl$imageUrl", width: 80.w, height: 110.h, fit: BoxFit.cover)
                   : Container(
                       width: 80.w,
                       height: 110.h,

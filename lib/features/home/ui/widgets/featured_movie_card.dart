@@ -1,5 +1,7 @@
+import 'package:cine_scope/core/helpers/constants.dart';
 import 'package:cine_scope/core/helpers/spacing.dart';
 import 'package:cine_scope/core/routing/routes.dart';
+import 'package:cine_scope/core/widgets/custom_cached_image.dart';
 import 'package:cine_scope/features/home/data/models/media_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,8 +43,10 @@ class FeaturedMovieCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.r),
           child: Stack(
             children: [
-              Image.network(
-                "https://image.tmdb.org/t/p/w780${media!.backdropPath}",
+              CustomCachedImage(
+                imageUrl: media!.backdropPath != null
+                    ? "$imageBaseUrl${media!.backdropPath}"
+                    : "",
                 height: 240.h,
                 width: double.infinity,
                 fit: BoxFit.cover,

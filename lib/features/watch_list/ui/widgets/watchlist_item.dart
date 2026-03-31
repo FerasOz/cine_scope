@@ -1,5 +1,7 @@
+import 'package:cine_scope/core/helpers/constants.dart';
 import 'package:cine_scope/core/helpers/spacing.dart';
 import 'package:cine_scope/core/routing/routes.dart';
+import 'package:cine_scope/core/widgets/custom_cached_image.dart';
 import 'package:cine_scope/features/watch_list/data/models/watchlist_model.dart';
 import 'package:cine_scope/features/watch_list/logic/watchlist_cubit.dart';
 import 'package:flutter/material.dart';
@@ -28,10 +30,10 @@ class WatchlistItem extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12.r),
-            child: Image.network(
-              movie.posterPath != null
-                  ? "https://image.tmdb.org/t/p/w500${movie.posterPath}"
-                  : "https://via.placeholder.com/500x750?text=No+Image",
+            child: CustomCachedImage(
+              imageUrl: movie.posterPath != null
+                  ? "$imageBaseUrl${movie.posterPath}"
+                  : "",
               width: 80.w,
               height: 110.h,
               fit: BoxFit.cover,
