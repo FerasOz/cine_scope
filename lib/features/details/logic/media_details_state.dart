@@ -9,6 +9,7 @@ class MediaDetailsState {
   final MediaDetailsModel? details;
   final List<ReviewModel>? reviews;
   final List<CastModel>? casts;
+  final int? id;
   final MediaType? type;
   final String? error;
 
@@ -17,6 +18,7 @@ class MediaDetailsState {
     this.details,
     this.reviews,
     this.casts,
+    this.id,
     this.type,
     this.error,
   });
@@ -26,6 +28,7 @@ class MediaDetailsState {
     MediaDetailsModel? details,
     List<ReviewModel>? reviews,
     List<CastModel>? casts,
+    int? id,
     MediaType? type,
     String? error,
   }) {
@@ -34,6 +37,7 @@ class MediaDetailsState {
       details: details ?? this.details,
       reviews: reviews ?? this.reviews,
       casts: casts ?? this.casts,
+      id: id ?? this.id,
       type: type ?? this.type,
       error: error ?? this.error,
     );
