@@ -1,3 +1,4 @@
+import 'package:cine_scope/core/widgets/error_view.dart';
 import 'package:cine_scope/features/details/ui/widgets/Reviews_tab.dart';
 import 'package:cine_scope/features/details/ui/widgets/about_movie_tab.dart';
 import 'package:cine_scope/features/details/ui/widgets/cast_tab.dart';
@@ -29,11 +30,14 @@ class DetailsScreen extends StatelessWidget {
           }
 
           if (state.status == RequestsStatus.error) {
-            return Center(
-              child: Text(
-                state.error ?? "Something went wrong",
-                style: const TextStyle(color: Colors.white),
-              ),
+            return ErrorView(
+              message: state.error ?? "Something went wrong",
+              onRetry: () {
+                context.read<MediaDetailsCubit>().getDetails(
+                  type: state.type!,
+                  id: state.id!,
+                );
+              },
             );
           }
 
