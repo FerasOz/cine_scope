@@ -1,4 +1,5 @@
 import 'package:cine_scope/core/helpers/constants.dart';
+import 'package:cine_scope/core/widgets/error_view.dart';
 import 'package:cine_scope/features/search/logic/search_cubit.dart';
 import 'package:cine_scope/features/search/logic/search_state.dart';
 import 'package:cine_scope/features/search/ui/widgets/no_results_view.dart';
@@ -30,11 +31,10 @@ class SearchBody extends StatelessWidget {
 
         /// ERROR
         if (state.status == RequestsStatus.error) {
-          return Center(
-            child: Text(
-              state.error ?? "Something went wrong",
-              style: const TextStyle(color: Colors.white),
-            ),
+          return ErrorView(
+            message: state.error ?? "Error",
+            //todo
+            onRetry: () => cubit.loadMore(),
           );
         }
 
