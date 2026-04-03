@@ -24,6 +24,10 @@ class SearchBody extends StatelessWidget {
           return const SearchInitialView();
         }
 
+        if (state.results.isEmpty) {
+          return const SearchInitialView(); // هنا بنعرض recent
+        }
+
         /// LOADING (first search)
         if (state.status == RequestsStatus.loading && state.results.isEmpty) {
           return const SearchShimmer();
@@ -34,7 +38,7 @@ class SearchBody extends StatelessWidget {
           return ErrorView(
             message: state.error ?? "Error",
             //todo
-            onRetry: () => cubit.loadMore(),
+            onRetry: () => cubit.onSearchChanged(cubit.query),
           );
         }
 

@@ -11,6 +11,7 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<SearchCubit>();
+    final controller = TextEditingController();
 
     return Scaffold(
       backgroundColor: ColorsManager.primary,
@@ -22,6 +23,7 @@ class SearchScreen extends StatelessWidget {
         title: Padding(
           padding: const EdgeInsetsDirectional.only(end: 8),
           child: TextField(
+            controller: controller,
             onChanged: (value) {
               cubit.onSearchChanged(value);
             },
@@ -31,6 +33,17 @@ class SearchScreen extends StatelessWidget {
               hintStyle: const TextStyle(color: Colors.grey),
               filled: true,
               fillColor: const Color(0xFF2A2A2A),
+
+              suffixIcon: controller.text.isNotEmpty
+                  ? IconButton(
+                      icon: const Icon(Icons.close, color: Colors.white),
+                      onPressed: () {
+                        controller.clear();
+                        cubit.onSearchChanged("");
+                      },
+                    )
+                  : null,
+
               contentPadding: EdgeInsets.symmetric(
                 horizontal: 16.w,
                 vertical: 12.h,
