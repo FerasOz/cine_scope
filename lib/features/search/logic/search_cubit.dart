@@ -1,19 +1,21 @@
 import 'dart:async';
 import 'package:cine_scope/core/helpers/constants.dart';
 import 'package:cine_scope/features/home/data/models/media_model.dart';
+import 'package:cine_scope/features/search/data/local/search_local_data_source.dart';
 import 'package:cine_scope/features/search/data/repo/search_repo.dart';
 import 'package:cine_scope/features/search/logic/search_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchCubit extends Cubit<SearchState> {
   final SearchRepo _repo;
+  final SearchLocalDataSource local;
 
   String _currentQuery = "";
   int _currentPage = 1;
   MediaType _currentType = MediaType.movie;
   bool _isLoadingMore = false;
 
-  SearchCubit(this._repo) : super(const SearchState());
+  SearchCubit(this._repo, this.local) : super(const SearchState());
 
   Timer? _debounce;
 
@@ -24,7 +26,10 @@ class SearchCubit extends Cubit<SearchState> {
     clear();
   }
 
+  String query = "";
+
   void onSearchChanged(String query) {
+    query = query;
     if (_debounce?.isActive ?? false) _debounce!.cancel();
 
     _debounce = Timer(const Duration(milliseconds: 500), () {
@@ -52,6 +57,7 @@ class SearchCubit extends Cubit<SearchState> {
     final result = await _repo.search(query: query, page: 1);
 
     if (result.isSuccess) {
+      saveSearch(query);
       emit(
         state.copyWith(
           status: RequestsStatus.success,
@@ -120,6 +126,23 @@ class SearchCubit extends Cubit<SearchState> {
         ),
       );
     }
+  }
+
+  List<String> recentSearches = [];
+
+  void loadRecent() {
+    recentSearches = local.getRecentSearches();
+    emit(state.copyWith());
+  }
+
+  void saveSearch(String query) async {
+    await local.saveSearch(query);
+    loadRecent();
+  }
+
+  void clearRecent() async {
+    await local.clear();
+    loadRecent();
   }
 
   void clear() {
