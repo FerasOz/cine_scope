@@ -10,6 +10,7 @@ void main() async {
   await ScreenUtil.ensureScreenSize();
   await Hive.initFlutter();
   await Hive.openBox<Map>('watchlist');
+  await Hive.openBox('search');
   await setUpGetIt();
   runApp(CineScopeApp(appRouters: AppRouters()));
 }
