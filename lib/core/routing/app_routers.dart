@@ -52,7 +52,7 @@ class AppRouters {
             providers: [
               BlocProvider(create: (_) => AppCubit()),
               BlocProvider(create: (_) => getIt<HomeCubit>()..loadHomeData()),
-              BlocProvider(create: (_) => getIt<SearchCubit>()),
+              BlocProvider(create: (_) => getIt<SearchCubit>()..loadRecent()),
               BlocProvider.value(value: watchlistCubit..loadWatchlist()),
             ],
             child: const AppLayout(),
