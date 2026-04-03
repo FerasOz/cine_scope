@@ -4,6 +4,7 @@ import 'package:cine_scope/features/details/data/repo/media_details_repo.dart';
 import 'package:cine_scope/features/home/data/repo/home_repo.dart';
 import 'package:cine_scope/features/details/logic/media_details_cubit.dart';
 import 'package:cine_scope/features/home/logic/home_cubit.dart';
+import 'package:cine_scope/features/search/data/local/search_local_data_source.dart';
 import 'package:cine_scope/features/search/data/repo/search_repo.dart';
 import 'package:cine_scope/features/search/logic/search_cubit.dart';
 import 'package:cine_scope/features/watch_list/data/local/watchlist_local_data_source.dart';
@@ -32,7 +33,9 @@ Future<void> setUpGetIt() async {
   getIt.registerLazySingleton<SearchRepo>(
     () => SearchRepo(getIt<ApiService>()),
   );
-  getIt.registerFactory<SearchCubit>(() => SearchCubit(getIt<SearchRepo>()));
+  getIt.registerFactory<SearchCubit>(
+    () => SearchCubit(getIt<SearchRepo>(), getIt<SearchLocalDataSource>()),
+  );
 
   final box = Hive.box<Map>('watchlist');
 
@@ -41,4 +44,7 @@ Future<void> setUpGetIt() async {
   getIt.registerLazySingleton(() => WatchlistRepo(getIt()));
 
   getIt.registerLazySingleton<WatchlistCubit>(() => WatchlistCubit(getIt()));
+
+  final searchBox = Hive.box('search');
+  getIt.registerLazySingleton(() => SearchLocalDataSource(searchBox));
 }
