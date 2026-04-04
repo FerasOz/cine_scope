@@ -8,47 +8,36 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchCubit extends Cubit<SearchState> {
   final SearchRepo _repo;
-  final SearchLocalDataSource local;
+  final SearchLocalDataSource _local;
 
-  String _currentQuery = "";
-  int _currentPage = 1;
-  MediaType _currentType = MediaType.movie;
-  bool _isLoadingMore = false;
-
-  SearchCubit(this._repo, this.local) : super(const SearchState());
-
-  Timer? _debounce;
-
-  MediaType get currentType => _currentType;
-
-  void changeType(MediaType type) {
-    _currentType = type;
-    clear();
+  SearchCubit(this._repo, this._local) : super(const SearchState()) {
+    loadRecent();
   }
 
+  Timer? _debounce;
+  bool _isLoadingMore = false;
+  List<String> recentSearches = [];
   String query = "";
 
   void onSearchChanged(String query) {
-    query = query;
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    emit(state.copyWith(query: query));
 
+    _generateSuggestions(query);
+    this.query = query;
+
+    _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
       if (query.isEmpty) {
-        emit(state.copyWith(status: RequestsStatus.initial, results: []));
+        emit(const SearchState());
         return;
       }
-      search(query);
+
+      _search(query);
     });
   }
 
-  Future<void> search(String query) async {
-    if (query.trim().length < 3) {
-      emit(const SearchState());
-      return;
-    }
-
-    _currentQuery = query;
-    _currentPage = 1;
+  Future<void> _search(String query) async {
+    if (query.trim().length < 3) return;
 
     emit(
       state.copyWith(
@@ -61,7 +50,9 @@ class SearchCubit extends Cubit<SearchState> {
     final result = await _repo.search(query: query, page: 1);
 
     if (result.isSuccess) {
-      saveSearch(query);
+      await _local.saveSearch(query);
+      loadRecent();
+
       emit(
         state.copyWith(
           status: RequestsStatus.success,
@@ -88,7 +79,7 @@ class SearchCubit extends Cubit<SearchState> {
 
     final nextPage = state.currentPage + 1;
 
-    final result = await _repo.search(query: _currentQuery, page: nextPage);
+    final result = await _repo.search(query: state.query, page: nextPage);
 
     if (result.isSuccess) {
       emit(
@@ -106,22 +97,25 @@ class SearchCubit extends Cubit<SearchState> {
   Future<void> searchByGenre(int genreId) async {
     emit(state.copyWith(status: RequestsStatus.loading));
 
-    final movieResult = await _repo.discoverByGenre(
+    final movie = await _repo.discoverByGenre(
       type: MediaType.movie,
       genreId: genreId,
       page: 1,
     );
 
-    final tvResult = await _repo.discoverByGenre(
+    final tv = await _repo.discoverByGenre(
       type: MediaType.tv,
       genreId: genreId,
       page: 1,
     );
 
-    if (movieResult.isSuccess && tvResult.isSuccess) {
-      final results = [...movieResult.data!.results, ...tvResult.data!.results];
-
-      emit(state.copyWith(status: RequestsStatus.success, results: results));
+    if (movie.isSuccess && tv.isSuccess) {
+      emit(
+        state.copyWith(
+          status: RequestsStatus.success,
+          results: [...movie.data!.results, ...tv.data!.results],
+        ),
+      );
     } else {
       emit(
         state.copyWith(
@@ -132,24 +126,26 @@ class SearchCubit extends Cubit<SearchState> {
     }
   }
 
-  List<String> recentSearches = [];
-
   void loadRecent() {
-    recentSearches = local.getRecentSearches();
-    emit(state.copyWith());
+    final recent = _local.getRecentSearches();
+    recentSearches = _local.getRecentSearches();
+    emit(state.copyWith(recent: recent));
   }
 
-  void saveSearch(String query) async {
-    await local.saveSearch(query);
+  Future<void> clearRecent() async {
+    await _local.clear();
     loadRecent();
   }
 
-  void clearRecent() async {
-    await local.clear();
-    loadRecent();
+  void _generateSuggestions(String query) {
+    final suggestions = state.recent
+        .where((e) => e.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+
+    emit(state.copyWith(suggestions: suggestions));
   }
 
-  void clear() {
+  void clearSearch() {
     emit(const SearchState());
   }
 
