@@ -24,10 +24,6 @@ class SearchBody extends StatelessWidget {
           return const SearchInitialView();
         }
 
-        if (state.results.isEmpty) {
-          return const SearchInitialView(); // هنا بنعرض recent
-        }
-
         /// LOADING (first search)
         if (state.status == RequestsStatus.loading && state.results.isEmpty) {
           return const SearchShimmer();
