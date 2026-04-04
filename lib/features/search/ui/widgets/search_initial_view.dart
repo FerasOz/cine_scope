@@ -19,7 +19,6 @@ class SearchInitialView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// 🔥 Recent Searches
           if (recent.isNotEmpty) ...[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -54,8 +53,6 @@ class SearchInitialView extends StatelessWidget {
 
             verticalSpace(24),
           ],
-
-          /// 🔥 Genres
           Text(
             "Genres",
             style: TextStyle(
