@@ -33,6 +33,10 @@ class SearchCubit extends Cubit<SearchState> {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
 
     _debounce = Timer(const Duration(milliseconds: 500), () {
+      if (query.isEmpty) {
+        emit(state.copyWith(status: RequestsStatus.initial, results: []));
+        return;
+      }
       search(query);
     });
   }
