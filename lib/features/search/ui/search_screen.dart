@@ -27,6 +27,9 @@ class SearchScreen extends StatelessWidget {
             onChanged: (value) {
               cubit.onSearchChanged(value);
             },
+            onSubmitted: (value) {
+              cubit.onSearchSubmitted(value);
+            },
             style: const TextStyle(color: Colors.white),
             decoration: InputDecoration(
               hintText: "Search movies or series...",
