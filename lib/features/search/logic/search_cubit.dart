@@ -50,7 +50,6 @@ class SearchCubit extends Cubit<SearchState> {
     final result = await _repo.search(query: query, page: 1);
 
     if (result.isSuccess) {
-      await _local.saveSearch(query);
       loadRecent();
 
       emit(
@@ -92,6 +91,14 @@ class SearchCubit extends Cubit<SearchState> {
     }
 
     _isLoadingMore = false;
+  }
+
+  void onSearchSubmitted(String query) {
+    if (query.trim().isEmpty) return;
+
+    _search(query);
+    _local.saveSearch(query);
+    loadRecent();
   }
 
   Future<void> searchByGenre(int genreId) async {
