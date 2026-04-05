@@ -3,7 +3,9 @@ import 'package:cine_scope/core/helpers/spacing.dart';
 import 'package:cine_scope/core/routing/routes.dart';
 import 'package:cine_scope/core/widgets/custom_cached_image.dart';
 import 'package:cine_scope/features/home/data/models/media_model.dart';
+import 'package:cine_scope/features/search/logic/search_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SearchResultItem extends StatelessWidget {
@@ -33,6 +35,7 @@ class SearchResultItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        context.read<SearchCubit>().onSearchSubmitted(title);
         Navigator.pushNamed(
           context,
           Routes.detailsScreen,

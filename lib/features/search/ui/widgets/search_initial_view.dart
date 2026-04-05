@@ -46,7 +46,7 @@ class SearchInitialView extends StatelessWidget {
                 title: Text(query, style: const TextStyle(color: Colors.white)),
                 leading: const Icon(Icons.history, color: Colors.grey),
                 onTap: () {
-                  cubit.onSearchChanged(query);
+                  cubit.onSearchSubmitted(query);
                 },
               ),
             ),

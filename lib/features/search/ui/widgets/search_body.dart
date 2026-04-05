@@ -24,7 +24,7 @@ class SearchBody extends StatelessWidget {
           return const SearchInitialView();
         }
 
-        /// LOADING (first search)
+        /// LOADING
         if (state.status == RequestsStatus.loading && state.results.isEmpty) {
           return const SearchShimmer();
         }
@@ -33,8 +33,7 @@ class SearchBody extends StatelessWidget {
         if (state.status == RequestsStatus.error) {
           return ErrorView(
             message: state.error ?? "Error",
-            //todo
-            onRetry: () => cubit.onSearchChanged(cubit.query),
+            onRetry: () => cubit.onSearchSubmitted(cubit.query),
           );
         }
 
