@@ -1,4 +1,4 @@
-# 🎬 CineScope App
+# CineScope App
 
 A modern and scalable **Movies & TV Shows** application built with **Flutter** and **Bloc (Cubit)**, designed to provide a smooth and engaging experience for discovering, searching, and saving media content.
 
