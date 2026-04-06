@@ -37,7 +37,8 @@ A modern and scalable **Movies & TV Shows** application built with **Flutter** a
 
 | Home                  |
 | --------------------- |
-| *Add Screenshot Here* |
+| <img width="1920" height="1440" alt="home" src="https://github.com/user-attachments/assets/1a94bf01-ad47-4179-ab50-4869e7ce6508" />
+ |
 
 ### Search Screen
 
