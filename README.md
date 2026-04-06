@@ -47,18 +47,11 @@ A modern and scalable **Movies & TV Shows** application built with **Flutter** a
 | <img width="600" alt="search" src="https://github.com/user-attachments/assets/e6b68d08-a6c9-4d09-a483-d0273eb2b417" /> | <img width="600" alt="search(results)" src="https://github.com/user-attachments/assets/0700fe31-c966-4434-8f6a-e21d80b9e0d3" /> |
  
 
-### Details Screen
+### Details & Watchlist Screen
 
-| Details               |
-| --------------------- |
-| <img width="1200" alt="details" src="https://github.com/user-attachments/assets/026f55d9-b286-408b-a763-dc14350ec3ec" />
-
-
-### Watchlist Screen
-
-| Watchlist             |
-| --------------------- |
-|  <img width="1200" alt="watchList" src="https://github.com/user-attachments/assets/9539d123-9c6e-400c-a6af-f2dcb114450c" />
+| Details               | Watchlist             |
+| --------------------- | --------------------- |
+| <img width="600" alt="details" src="https://github.com/user-attachments/assets/026f55d9-b286-408b-a763-dc14350ec3ec" /> | <img width="600" alt="watchList" src="https://github.com/user-attachments/assets/9539d123-9c6e-400c-a6af-f2dcb114450c" /> |
 
 
 ---
