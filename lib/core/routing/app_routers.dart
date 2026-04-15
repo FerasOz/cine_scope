@@ -1,5 +1,8 @@
 import 'package:cine_scope/core/di/dependency_injection.dart';
 import 'package:cine_scope/core/routing/routes.dart';
+import 'package:cine_scope/features/auth/cubit/auth_cubit.dart';
+import 'package:cine_scope/features/auth/ui/login/login_screen.dart';
+import 'package:cine_scope/features/auth/ui/register/register_screen.dart';
 import 'package:cine_scope/features/details/logic/media_details_cubit.dart';
 import 'package:cine_scope/features/details/ui/details_screen.dart';
 import 'package:cine_scope/features/home/data/models/media_model.dart';
@@ -19,6 +22,22 @@ class AppRouters {
 
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case Routes.loginScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<AuthCubit>(),
+            child: const LoginScreen(),
+          ),
+        );
+
+      case Routes.registerScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<AuthCubit>(),
+            child: const RegisterScreen(),
+          ),
+        );
+
       case Routes.homeScreen:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
 
