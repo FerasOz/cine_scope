@@ -164,6 +164,7 @@ flutter run
 * hive
 * cached_network_image
 * flutter_screenutil
+* flutter_native_splash
 
 ---
 
