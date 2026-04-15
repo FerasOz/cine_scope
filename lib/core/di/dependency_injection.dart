@@ -1,5 +1,8 @@
 import 'package:cine_scope/core/networking/api_service.dart';
 import 'package:cine_scope/core/networking/dio_factory.dart';
+import 'package:cine_scope/features/auth/cubit/auth_cubit.dart';
+import 'package:cine_scope/features/auth/data/data_source/auth_api.dart';
+import 'package:cine_scope/features/auth/data/repo/auth_repo.dart';
 import 'package:cine_scope/features/details/data/repo/media_details_repo.dart';
 import 'package:cine_scope/features/home/data/repo/home_repo.dart';
 import 'package:cine_scope/features/details/logic/media_details_cubit.dart';
@@ -19,6 +22,11 @@ final getIt = GetIt.instance;
 Future<void> setUpGetIt() async {
   Dio dio = await DioFactory.getDio();
   getIt.registerLazySingleton<ApiService>(() => ApiService(dio));
+
+  getIt.registerLazySingleton<AuthApi>(() => AuthApi());
+  getIt.registerLazySingleton<AuthRepo>(() => AuthRepo(getIt<AuthApi>()));
+  getIt.registerFactory<AuthCubit>(() => AuthCubit(getIt<AuthRepo>()));
+
 
   getIt.registerLazySingleton<HomeRepo>(() => HomeRepo(getIt<ApiService>()));
   getIt.registerFactory<HomeCubit>(() => HomeCubit(getIt()));
