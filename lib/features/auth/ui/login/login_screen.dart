@@ -1,4 +1,5 @@
 ﻿import 'package:cine_scope/core/helpers/spacing.dart';
+import 'package:cine_scope/core/routing/routes.dart';
 import 'package:cine_scope/core/styles/colors.dart';
 import 'package:cine_scope/features/auth/cubit/auth_cubit.dart';
 import 'package:cine_scope/features/auth/cubit/auth_state.dart';
@@ -57,6 +58,7 @@ class LoginScreen extends StatelessWidget {
                 backgroundColor: Colors.green,
               ),
             );
+            Navigator.pushReplacementNamed(context, Routes.appLayout);
           }
         },
         builder: (context, state) {
@@ -144,7 +146,7 @@ class LoginScreen extends StatelessWidget {
                           height: 52.h,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
+                              backgroundColor: Colors.orange,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20.r),
                               ),
@@ -157,7 +159,7 @@ class LoginScreen extends StatelessWidget {
                                 : Text(
                                     'Sign In',
                                     style: TextStyle(
-                                      color: ColorsManager.primary,
+                                      color: Colors.white,
                                       fontSize: 16.sp,
                                       fontWeight: FontWeight.w700,
                                     ),
@@ -189,7 +191,9 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, Routes.registerScreen);
+                        },
                         child: Text(
                           'Register',
                           style: TextStyle(
