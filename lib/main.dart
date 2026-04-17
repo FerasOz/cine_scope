@@ -11,6 +11,7 @@ void main() async {
   await Hive.initFlutter();
   await Hive.openBox<Map>('watchlist');
   await Hive.openBox('search');
+  await Hive.openBox('auth');
   await setUpGetIt();
   runApp(CineScopeApp(appRouters: AppRouters()));
 }

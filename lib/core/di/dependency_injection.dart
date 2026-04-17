@@ -23,7 +23,8 @@ Future<void> setUpGetIt() async {
   Dio dio = await DioFactory.getDio();
   getIt.registerLazySingleton<ApiService>(() => ApiService(dio));
 
-  getIt.registerLazySingleton<AuthApi>(() => AuthApi());
+  final authBox = Hive.box('auth');
+  getIt.registerLazySingleton<AuthApi>(() => AuthApi(authBox));
   getIt.registerLazySingleton<AuthRepo>(() => AuthRepo(getIt<AuthApi>()));
   getIt.registerFactory<AuthCubit>(() => AuthCubit(getIt<AuthRepo>()));
 
