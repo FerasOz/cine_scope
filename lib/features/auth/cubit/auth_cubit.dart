@@ -16,6 +16,10 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.copyWith(password: password, error: null));
   }
 
+  void setName(String name) {
+    emit(state.copyWith(name: name, error: null));
+  }
+
   void togglePasswordVisibility() {
     emit(state.copyWith(isPasswordVisible: !state.isPasswordVisible));
   }
@@ -47,10 +51,26 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> register(String name, String email, String password) async {
-    emit(state.copyWith(status: RequestsStatus.loading));
+  Future<void> register() async {
+    if (state.name.trim().isEmpty ||
+        state.email.trim().isEmpty ||
+        state.password.trim().isEmpty) {
+      emit(
+        state.copyWith(
+          status: RequestsStatus.error,
+          error: 'Name, email and password are required.',
+        ),
+      );
+      return;
+    }
 
-    final result = await repo.register(name, email, password);
+    emit(state.copyWith(status: RequestsStatus.loading, error: null));
+
+    final result = await repo.register(
+      state.name.trim(),
+      state.email.trim(),
+      state.password.trim(),
+    );
 
     if (result.isSuccess && result.data != null) {
       emit(state.copyWith(status: RequestsStatus.success, user: result.data));

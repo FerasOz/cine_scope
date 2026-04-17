@@ -5,6 +5,7 @@ class AuthState {
   final RequestsStatus status;
   final UserModel? user;
   final String? error;
+  final String name;
   final String email;
   final String password;
   final bool isPasswordVisible;
@@ -13,6 +14,7 @@ class AuthState {
     this.status = RequestsStatus.initial,
     this.user,
     this.error,
+    this.name = '',
     this.email = '',
     this.password = '',
     this.isPasswordVisible = false,
@@ -22,6 +24,7 @@ class AuthState {
     RequestsStatus? status,
     UserModel? user,
     String? error,
+    String? name,
     String? email,
     String? password,
     bool? isPasswordVisible,
@@ -30,6 +33,7 @@ class AuthState {
       status: status ?? this.status,
       user: user ?? this.user,
       error: error,
+      name: name ?? this.name,
       email: email ?? this.email,
       password: password ?? this.password,
       isPasswordVisible: isPasswordVisible ?? this.isPasswordVisible,
