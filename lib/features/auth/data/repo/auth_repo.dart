@@ -8,6 +8,12 @@ class AuthRepo {
 
   AuthRepo(this._api);
 
+  bool get hasActiveSession => _api.hasActiveSession;
+
+  Map<String, dynamic>? getActiveSession() => _api.getActiveSession();
+
+  Future<void> clearSession() => _api.clearSession();
+
   Future<ApiResult<UserModel>> login(String email, String password) async {
     try {
       final response = await _api.login(email, password);
