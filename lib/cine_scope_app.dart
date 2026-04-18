@@ -1,5 +1,7 @@
+import 'package:cine_scope/core/di/dependency_injection.dart';
 import 'package:cine_scope/core/routing/app_routers.dart';
 import 'package:cine_scope/core/routing/routes.dart';
+import 'package:cine_scope/features/auth/data/repo/auth_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,6 +11,10 @@ class CineScopeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final initialRoute = getIt<AuthRepo>().hasActiveSession
+        ? Routes.appLayout
+        : Routes.loginScreen;
+
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       minTextAdapt: true,
@@ -20,7 +26,7 @@ class CineScopeApp extends StatelessWidget {
         // theme: AppThemes.lightTheme,
         // darkTheme: AppThemes.darkTheme,
         onGenerateRoute: appRouters.onGenerateRoute,
-        initialRoute: Routes.loginScreen,
+        initialRoute: initialRoute,
       ),
     );
   }
