@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
 
@@ -7,6 +9,7 @@ class AuthApi {
   }
 
   static const String _usersKey = 'registered_users';
+  static const String _sessionKey = 'active_session';
 
   final Box _authBox;
 
@@ -27,14 +30,17 @@ class AuthApi {
       );
     }
 
-    if (user['password'] != normalizedPassword) {
+    if (user['password'] != _hashPassword(normalizedPassword)) {
       throw _badResponseError(
         statusCode: 401,
         message: 'Incorrect password. Please try again.',
       );
     }
 
-    return _buildAuthResponse(user);
+    final authResponse = _buildAuthResponse(user);
+    _saveSession(authResponse);
+
+    return authResponse;
   }
 
   Future<Map<String, dynamic>> register(
@@ -66,7 +72,7 @@ class AuthApi {
       'id': (_registeredUsers.length + 1).toString(),
       'name': normalizedName,
       'email': normalizedEmail,
-      'password': normalizedPassword,
+      'password': _hashPassword(normalizedPassword),
       'createdAt': DateTime.now().toIso8601String(),
     };
 
@@ -74,7 +80,34 @@ class AuthApi {
     users.add(newUser);
     _saveUsers(users);
 
-    return _buildAuthResponse(newUser);
+    final authResponse = _buildAuthResponse(newUser);
+    _saveSession(authResponse);
+
+    return authResponse;
+  }
+
+  bool get hasActiveSession {
+    final session = _authBox.get(_sessionKey);
+    if (session is! Map) {
+      return false;
+    }
+
+    final token = session['token']?.toString() ?? '';
+    final email = session['email']?.toString() ?? '';
+
+    return token.isNotEmpty && email.isNotEmpty;
+  }
+
+  Map<String, dynamic>? getActiveSession() {
+    final session = _authBox.get(_sessionKey);
+    if (session is Map) {
+      return Map<String, dynamic>.from(session);
+    }
+    return null;
+  }
+
+  Future<void> clearSession() async {
+    await _authBox.delete(_sessionKey);
   }
 
   Map<String, dynamic>? _findUserByEmail(String email) {
@@ -101,6 +134,10 @@ class AuthApi {
     _authBox.put(_usersKey, users);
   }
 
+  void _saveSession(Map<String, dynamic> authResponse) {
+    _authBox.put(_sessionKey, authResponse);
+  }
+
   void _ensureSeedUser() {
     if (_registeredUsers.isNotEmpty) {
       return;
@@ -111,7 +148,7 @@ class AuthApi {
         'id': '1',
         'name': 'Feras',
         'email': 'test@test.com',
-        'password': '123456',
+        'password': _hashPassword('123456'),
         'createdAt': DateTime(2026, 1, 1).toIso8601String(),
       },
     ]);
@@ -185,6 +222,10 @@ class AuthApi {
   String _generateFakeToken(Map<String, dynamic> user) {
     final timestamp = DateTime.now().millisecondsSinceEpoch;
     return 'fake_token_${user['id']}_$timestamp';
+  }
+
+  String _hashPassword(String password) {
+    return base64Encode(utf8.encode(password));
   }
 
   DioException _badResponseError({
