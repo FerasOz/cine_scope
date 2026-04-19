@@ -121,6 +121,7 @@ class RegisterScreen extends StatelessWidget {
                         verticalSpace(24),
                         TextField(
                           onChanged: cubit.setName,
+                          cursorColor: Colors.orange,
                           style: const TextStyle(color: Colors.white),
                           decoration: _inputDecoration(
                             hint: 'Full name',
@@ -130,6 +131,7 @@ class RegisterScreen extends StatelessWidget {
                         verticalSpace(16),
                         TextField(
                           onChanged: cubit.setEmail,
+                          cursorColor: Colors.orange,
                           style: const TextStyle(color: Colors.white),
                           decoration: _inputDecoration(
                             hint: 'Email address',
@@ -139,6 +141,7 @@ class RegisterScreen extends StatelessWidget {
                         verticalSpace(16),
                         TextField(
                           onChanged: cubit.setPassword,
+                          cursorColor: Colors.orange,
                           obscureText: !state.isPasswordVisible,
                           style: const TextStyle(color: Colors.white),
                           decoration:
