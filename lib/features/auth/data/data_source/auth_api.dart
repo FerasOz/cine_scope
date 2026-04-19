@@ -2,16 +2,17 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
+import 'package:cine_scope/features/auth/data/data_source/auth_session_local_data_source.dart';
 
 class AuthApi {
-  AuthApi(this._authBox) {
+  AuthApi(this._authBox, this._sessionLocalDataSource) {
     _ensureSeedUser();
   }
 
   static const String _usersKey = 'registered_users';
-  static const String _sessionKey = 'active_session';
 
   final Box _authBox;
+  final AuthSessionLocalDataSource _sessionLocalDataSource;
 
   Future<Map<String, dynamic>> login(String email, String password) async {
     await Future.delayed(const Duration(milliseconds: 900));
@@ -38,7 +39,7 @@ class AuthApi {
     }
 
     final authResponse = _buildAuthResponse(user);
-    _saveSession(authResponse);
+    await _sessionLocalDataSource.saveSession(authResponse);
 
     return authResponse;
   }
@@ -81,33 +82,9 @@ class AuthApi {
     _saveUsers(users);
 
     final authResponse = _buildAuthResponse(newUser);
-    _saveSession(authResponse);
+    await _sessionLocalDataSource.saveSession(authResponse);
 
     return authResponse;
-  }
-
-  bool get hasActiveSession {
-    final session = _authBox.get(_sessionKey);
-    if (session is! Map) {
-      return false;
-    }
-
-    final token = session['token']?.toString() ?? '';
-    final email = session['email']?.toString() ?? '';
-
-    return token.isNotEmpty && email.isNotEmpty;
-  }
-
-  Map<String, dynamic>? getActiveSession() {
-    final session = _authBox.get(_sessionKey);
-    if (session is Map) {
-      return Map<String, dynamic>.from(session);
-    }
-    return null;
-  }
-
-  Future<void> clearSession() async {
-    await _authBox.delete(_sessionKey);
   }
 
   Map<String, dynamic>? _findUserByEmail(String email) {
@@ -132,10 +109,6 @@ class AuthApi {
 
   void _saveUsers(List<Map<String, dynamic>> users) {
     _authBox.put(_usersKey, users);
-  }
-
-  void _saveSession(Map<String, dynamic> authResponse) {
-    _authBox.put(_sessionKey, authResponse);
   }
 
   void _ensureSeedUser() {
