@@ -38,6 +38,12 @@ class CustomBottomNav extends StatelessWidget {
             isActive: currentIndex == 2,
             onTap: () => onTap(2),
           ),
+          _buildNavItem(
+            icon: Icons.person,
+            label: 'Profile',
+            isActive: currentIndex == 3,
+            onTap: () => onTap(3),
+          ),
         ],
       ),
     );
