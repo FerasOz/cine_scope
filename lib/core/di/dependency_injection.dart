@@ -2,6 +2,7 @@ import 'package:cine_scope/core/networking/api_service.dart';
 import 'package:cine_scope/core/networking/dio_factory.dart';
 import 'package:cine_scope/features/auth/cubit/auth_cubit.dart';
 import 'package:cine_scope/features/auth/data/data_source/auth_api.dart';
+import 'package:cine_scope/features/auth/data/data_source/auth_session_local_data_source.dart';
 import 'package:cine_scope/features/auth/data/repo/auth_repo.dart';
 import 'package:cine_scope/features/details/data/repo/media_details_repo.dart';
 import 'package:cine_scope/features/home/data/repo/home_repo.dart';
@@ -24,10 +25,19 @@ Future<void> setUpGetIt() async {
   getIt.registerLazySingleton<ApiService>(() => ApiService(dio));
 
   final authBox = Hive.box('auth');
-  getIt.registerLazySingleton<AuthApi>(() => AuthApi(authBox));
-  getIt.registerLazySingleton<AuthRepo>(() => AuthRepo(getIt<AuthApi>()));
+  getIt.registerLazySingleton<AuthSessionLocalDataSource>(
+    () => AuthSessionLocalDataSource(authBox),
+  );
+  getIt.registerLazySingleton<AuthApi>(
+    () => AuthApi(authBox, getIt<AuthSessionLocalDataSource>()),
+  );
+  getIt.registerLazySingleton<AuthRepo>(
+    () => AuthRepo(
+      getIt<AuthApi>(),
+      getIt<AuthSessionLocalDataSource>(),
+    ),
+  );
   getIt.registerFactory<AuthCubit>(() => AuthCubit(getIt<AuthRepo>()));
-
 
   getIt.registerLazySingleton<HomeRepo>(() => HomeRepo(getIt<ApiService>()));
   getIt.registerFactory<HomeCubit>(() => HomeCubit(getIt()));
@@ -47,12 +57,11 @@ Future<void> setUpGetIt() async {
   );
 
   final box = Hive.box<Map>('watchlist');
-
   getIt.registerLazySingleton(() => WatchlistLocalDataSource(box));
 
-  getIt.registerLazySingleton(() => WatchlistRepo(getIt()));
+  getIt.registerLazySingleton(() => WatchlistRepo(getIt(), getIt<AuthRepo>()));
 
-  getIt.registerLazySingleton<WatchlistCubit>(() => WatchlistCubit(getIt()));
+  getIt.registerFactory<WatchlistCubit>(() => WatchlistCubit(getIt()));
 
   final searchBox = Hive.box('search');
   getIt.registerLazySingleton(() => SearchLocalDataSource(searchBox));
