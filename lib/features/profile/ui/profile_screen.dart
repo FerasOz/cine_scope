@@ -3,9 +3,9 @@ import 'package:cine_scope/core/helpers/spacing.dart';
 import 'package:cine_scope/core/routing/routes.dart';
 import 'package:cine_scope/core/styles/colors.dart';
 import 'package:cine_scope/features/auth/data/repo/auth_repo.dart';
+import 'package:cine_scope/features/watch_list/data/repo/watchlist_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -15,8 +15,7 @@ class ProfileScreen extends StatelessWidget {
     final session = getIt<AuthRepo>().getActiveSession() ?? {};
     final userName = _valueOrFallback(session['name'], 'Movie Lover');
     final email = _valueOrFallback(session['email'], 'No email available');
-    final userId = _valueOrFallback(session['id'], '--');
-    final watchlistCount = Hive.box<Map>('watchlist').length;
+    final watchlistCount = getIt<WatchlistRepo>().getWatchlist().length;
 
     return Scaffold(
       backgroundColor: ColorsManager.primary,
@@ -33,7 +32,7 @@ class ProfileScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _ProfileHeroCard(name: userName, email: email, userId: userId),
+              _ProfileHeroCard(name: userName, email: email),
               verticalSpace(24),
               Text(
                 'Overview',
@@ -78,11 +77,11 @@ class ProfileScreen extends StatelessWidget {
                 title: 'Email Address',
                 value: email,
               ),
-              verticalSpace(12),
+              verticalSpace(16),
               _ProfileInfoTile(
-                icon: Icons.badge_outlined,
-                title: 'User ID',
-                value: userId,
+                icon: Icons.person,
+                title: 'Name',
+                value: userName,
               ),
               verticalSpace(24),
               _ProfileActionCard(
@@ -136,7 +135,10 @@ class ProfileScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(14.r),
                               ),
                             ),
-                            child: const Text('Logout'),
+                            child: const Text(
+                              'Logout',
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
                         ],
                       );
@@ -169,15 +171,10 @@ class ProfileScreen extends StatelessWidget {
 }
 
 class _ProfileHeroCard extends StatelessWidget {
-  const _ProfileHeroCard({
-    required this.name,
-    required this.email,
-    required this.userId,
-  });
+  const _ProfileHeroCard({required this.name, required this.email});
 
   final String name;
   final String email;
-  final String userId;
 
   @override
   Widget build(BuildContext context) {
@@ -230,30 +227,6 @@ class _ProfileHeroCard extends StatelessWidget {
             style: TextStyle(
               color: ColorsManager.textSecondary,
               fontSize: 14.sp,
-            ),
-          ),
-          verticalSpace(20),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.05),
-              borderRadius: BorderRadius.circular(16.r),
-            ),
-            child: Row(
-              children: [
-                const Icon(Icons.movie_filter_outlined, color: Colors.orange),
-                SizedBox(width: 10.w),
-                Expanded(
-                  child: Text(
-                    'Cine Scope ID: $userId',
-                    style: TextStyle(
-                      color: ColorsManager.textPrimary,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
             ),
           ),
         ],
