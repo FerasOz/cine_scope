@@ -64,7 +64,7 @@ class RegisterScreen extends StatelessWidget {
             );
             WidgetsBinding.instance.addPostFrameCallback((_) {
               if (!context.mounted) return;
-              Navigator.pushReplacementNamed(context, Routes.loginScreen);
+              Navigator.pushReplacementNamed(context, Routes.appLayout);
             });
           }
         },
