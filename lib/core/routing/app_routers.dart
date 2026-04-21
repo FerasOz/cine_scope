@@ -23,7 +23,7 @@ class AppRouters {
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.loginScreen:
-        return MaterialPageRoute(
+        return _buildRoute(
           builder: (_) => BlocProvider(
             create: (context) => getIt<AuthCubit>(),
             child: const LoginScreen(),
@@ -31,7 +31,7 @@ class AppRouters {
         );
 
       case Routes.registerScreen:
-        return MaterialPageRoute(
+        return _buildRoute(
           builder: (_) => BlocProvider(
             create: (context) => getIt<AuthCubit>(),
             child: const RegisterScreen(),
@@ -39,14 +39,17 @@ class AppRouters {
         );
 
       case Routes.homeScreen:
-        return MaterialPageRoute(builder: (_) => const HomeScreen());
+        return _buildRoute(builder: (_) => const HomeScreen());
 
       case Routes.detailsScreen:
         final args = settings.arguments as Map;
         final int id = args['id'];
         final MediaType type = args['type'];
+        final String? heroImagePath = args['heroImagePath'] as String?;
+        final String heroTag =
+            (args['heroTag'] as String?) ?? 'media_${type.name}_$id';
 
-        return MaterialPageRoute(
+        return _buildRoute(
           builder: (_) => MultiBlocProvider(
             providers: [
               BlocProvider(
@@ -55,18 +58,21 @@ class AppRouters {
               ),
               BlocProvider.value(value: watchlistCubit),
             ],
-            child: const DetailsScreen(),
+            child: DetailsScreen(
+              heroTag: heroTag,
+              heroImagePath: heroImagePath,
+            ),
           ),
         );
 
       case Routes.searchScreen:
-        return MaterialPageRoute(builder: (_) => const SearchScreen());
+        return _buildRoute(builder: (_) => const SearchScreen());
 
       case Routes.watchListScreen:
-        return MaterialPageRoute(builder: (_) => const WatchlistScreen());
+        return _buildRoute(builder: (_) => const WatchlistScreen());
 
       case Routes.appLayout:
-        return MaterialPageRoute(
+        return _buildRoute(
           builder: (_) => MultiBlocProvider(
             providers: [
               BlocProvider(create: (_) => AppCubit()),
@@ -81,5 +87,32 @@ class AppRouters {
       default:
         return null;
     }
+  }
+
+  PageRouteBuilder<dynamic> _buildRoute({
+    required WidgetBuilder builder,
+  }) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => builder(context),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        final curved = CurvedAnimation(
+          parent: animation,
+          curve: Curves.easeOutCubic,
+        );
+
+        return FadeTransition(
+          opacity: curved,
+          child: SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(0, 0.035),
+              end: Offset.zero,
+            ).animate(curved),
+            child: child,
+          ),
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 340),
+      reverseTransitionDuration: const Duration(milliseconds: 260),
+    );
   }
 }
