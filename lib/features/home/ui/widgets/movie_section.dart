@@ -1,6 +1,8 @@
 import 'package:cine_scope/core/helpers/constants.dart';
 import 'package:cine_scope/core/helpers/spacing.dart';
 import 'package:cine_scope/core/styles/colors.dart';
+import 'package:cine_scope/core/widgets/empty_state_view.dart';
+import 'package:cine_scope/core/widgets/error_view.dart';
 import 'package:cine_scope/features/home/data/models/media_model.dart';
 import 'package:cine_scope/features/home/ui/widgets/horizontal_media_shimmer.dart';
 import 'package:cine_scope/features/home/ui/widgets/horizontal_movies_list.dart';
@@ -11,12 +13,14 @@ class MovieSection extends StatelessWidget {
   final String title;
   final List<MediaModel>? media;
   final RequestsStatus status;
+  final VoidCallback? onRetry;
 
   const MovieSection({
     super.key,
     required this.title,
     required this.media,
     required this.status,
+    this.onRetry,
   });
 
   @override
@@ -48,11 +52,21 @@ class MovieSection extends StatelessWidget {
     }
 
     if (status == RequestsStatus.error) {
-      return const Center(child: Text("Something went wrong"));
+      return ErrorView(
+        message: 'We couldn\'t load $title right now.',
+        onRetry: onRetry,
+        compact: true,
+        title: 'Unable to load section',
+      );
     }
 
     if (media == null || media!.isEmpty) {
-      return const SizedBox();
+      return EmptyStateView(
+        title: 'Nothing here yet',
+        subtitle: 'Fresh titles for $title will appear here soon.',
+        icon: Icons.movie_creation_outlined,
+        compact: true,
+      );
     }
 
     return HorizontalMoviesList(media: media!);
