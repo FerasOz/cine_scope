@@ -17,6 +17,7 @@ class SearchScreen extends StatelessWidget {
       backgroundColor: ColorsManager.primary,
       appBar: AppBar(
         backgroundColor: ColorsManager.primary,
+        surfaceTintColor: Colors.transparent,
         elevation: 0,
         leading: const Icon(Icons.search, color: Colors.white),
         titleSpacing: 0,
@@ -24,6 +25,7 @@ class SearchScreen extends StatelessWidget {
           padding: const EdgeInsetsDirectional.only(end: 8),
           child: TextField(
             controller: controller,
+            cursorColor: Colors.orange,
             onChanged: (value) {
               cubit.onSearchChanged(value);
             },
