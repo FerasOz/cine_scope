@@ -16,27 +16,36 @@ class WatchlistItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<WatchlistCubit>();
+    final heroTag = 'watchlist_${movie.safeType.name}_${movie.id}';
 
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(
           context,
           Routes.detailsScreen,
-          arguments: {"id": movie.id, "type": movie.safeType},
+          arguments: {
+            "id": movie.id,
+            "type": movie.safeType,
+            "heroImagePath": movie.posterPath,
+            "heroTag": heroTag,
+          },
         );
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12.r),
-            child: CustomCachedImage(
-              imageUrl: movie.posterPath != null
-                  ? "$imageBaseUrl${movie.posterPath}"
-                  : "",
-              width: 80.w,
-              height: 110.h,
-              fit: BoxFit.cover,
+          Hero(
+            tag: heroTag,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12.r),
+              child: CustomCachedImage(
+                imageUrl: movie.posterPath != null
+                    ? "$imageBaseUrl${movie.posterPath}"
+                    : "",
+                width: 80.w,
+                height: 110.h,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           horizontalSpace(12),

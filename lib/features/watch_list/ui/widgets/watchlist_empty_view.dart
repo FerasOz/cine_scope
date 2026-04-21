@@ -1,4 +1,5 @@
 import 'package:cine_scope/core/helpers/spacing.dart';
+import 'package:cine_scope/core/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,7 +11,7 @@ class WatchlistEmptyView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(32),
+        padding: EdgeInsets.all(32.w),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -20,18 +21,22 @@ class WatchlistEmptyView extends StatelessWidget {
             ),
             verticalSpace(20),
             Text(
-              "Watch list is empty!",
+              "Your watch list is empty",
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.sp,
-                fontWeight: FontWeight.bold,
+                color: ColorsManager.textPrimary,
+                fontSize: 20.sp,
+                fontWeight: FontWeight.w700,
               ),
             ),
             verticalSpace(8),
             Text(
-              "Find your movies/series by type title,\ncategories, years, etc",
+              "Save movies and series you want to revisit later.\nStart exploring and tap the bookmark icon.",
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey, fontSize: 13.sp),
+              style: TextStyle(
+                color: ColorsManager.textSecondary,
+                fontSize: 13.sp,
+                height: 1.6,
+              ),
             ),
           ],
         ),
