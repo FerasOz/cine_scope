@@ -16,14 +16,27 @@ class AppLayout extends StatelessWidget {
     return BlocConsumer<AppCubit, AppState>(
       listener: (context, state) {},
       builder: (context, state) {
+        final pages = [
+          const HomeScreen(),
+          const SearchScreen(),
+          const WatchlistScreen(),
+          const ProfileScreen(),
+        ];
+
         return Scaffold(
-          body: state.currentIndex == 0
-              ? const HomeScreen()
-              : state.currentIndex == 1
-              ? const SearchScreen()
-              : state.currentIndex == 2
-              ? const WatchlistScreen()
-              : const ProfileScreen(),
+          body: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 280),
+            transitionBuilder: (child, animation) {
+              return FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+            },
+            child: KeyedSubtree(
+              key: ValueKey(state.currentIndex),
+              child: pages[state.currentIndex],
+            ),
+          ),
 
           bottomNavigationBar: CustomBottomNav(
             currentIndex: state.currentIndex,
