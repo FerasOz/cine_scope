@@ -24,12 +24,6 @@ class ProfileScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: ColorsManager.primary,
-      appBar: AppBar(
-        backgroundColor: ColorsManager.primary,
-        elevation: 0,
-        title: const Text('Profile'),
-        centerTitle: true,
-      ),
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
