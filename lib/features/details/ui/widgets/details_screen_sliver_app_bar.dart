@@ -7,8 +7,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class DetailsSliverAppBar extends StatelessWidget {
   final String? imagePath;
   final Widget? action;
+  final String? heroTag;
 
-  const DetailsSliverAppBar({super.key, this.imagePath, this.action});
+  const DetailsSliverAppBar({
+    super.key,
+    this.imagePath,
+    this.action,
+    this.heroTag,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +22,10 @@ class DetailsSliverAppBar extends StatelessWidget {
 
     return SliverAppBar(
       backgroundColor: ColorsManager.primary,
+      surfaceTintColor: Colors.transparent,
+      shadowColor: Colors.transparent,
+      scrolledUnderElevation: 0,
+      elevation: 0,
       expandedHeight: 320.h,
       pinned: true,
       leading: const BackButton(color: Colors.white),
@@ -24,12 +34,27 @@ class DetailsSliverAppBar extends StatelessWidget {
         background: Stack(
           fit: StackFit.expand,
           children: [
-            CustomCachedImage(
-              imageUrl: imageUrl,
-              width: double.infinity,
-              height: 320.h,
-              fit: BoxFit.cover,
-            ),
+            if (heroTag != null)
+              Hero(
+                tag: heroTag!,
+                child: CustomCachedImage(
+                  imageUrl: imageUrl,
+                  width: double.infinity,
+                  height: 320.h,
+                  fit: BoxFit.cover,
+                ),
+              )
+            else
+              CustomCachedImage(
+                imageUrl: imageUrl,
+                width: double.infinity,
+                height: 320.h,
+                fit: BoxFit.cover,
+              ),
+            if (heroTag != null)
+              const Positioned.fill(
+                child: Material(color: Colors.transparent),
+              ),
             Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(

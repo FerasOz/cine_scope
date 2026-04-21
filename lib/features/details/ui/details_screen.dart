@@ -17,7 +17,10 @@ import 'package:cine_scope/core/styles/colors.dart';
 import 'package:flutter/material.dart';
 
 class DetailsScreen extends StatelessWidget {
-  const DetailsScreen({super.key});
+  const DetailsScreen({super.key, this.heroImagePath, this.heroTag});
+
+  final String? heroImagePath;
+  final String? heroTag;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,20 @@ class DetailsScreen extends StatelessWidget {
       body: BlocBuilder<MediaDetailsCubit, MediaDetailsState>(
         builder: (context, state) {
           if (state.status == RequestsStatus.loading) {
-            return DetailsShimmer();
+            if (heroImagePath == null) {
+              return const DetailsShimmer();
+            }
+
+            return CustomScrollView(
+              slivers: [
+                DetailsSliverAppBar(imagePath: heroImagePath, heroTag: heroTag),
+                const SliverFillRemaining(
+                  child: Center(
+                    child: CircularProgressIndicator(color: Colors.orange),
+                  ),
+                ),
+              ],
+            );
           }
 
           if (state.status == RequestsStatus.error) {
@@ -54,7 +70,8 @@ class DetailsScreen extends StatelessWidget {
                 child: CustomScrollView(
                   slivers: [
                     DetailsSliverAppBar(
-                      imagePath: media.backdropPath,
+                      imagePath: media.backdropPath ?? heroImagePath,
+                      heroTag: heroTag,
                       action: IconButton(
                         icon: Icon(
                           isSaved
