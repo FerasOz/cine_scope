@@ -35,6 +35,8 @@ class MediaDetailsCubit extends Cubit<MediaDetailsState> {
           details: detailsResult.data,
           reviews: reviewsResult.data?.results ?? [],
           casts: castResult.data?.cast ?? [],
+          isLoadingMoreReviews: false,
+          hasMoreReviews: (reviewsResult.data?.results ?? []).isNotEmpty,
           id: id,
           type: type,
         ),
@@ -53,34 +55,39 @@ class MediaDetailsCubit extends Cubit<MediaDetailsState> {
   }
 
   Future<void> loadMoreReviews() async {
-  if (_isLoadingMoreReviews || !_hasMoreReviews) return;
+    if (_isLoadingMoreReviews || !_hasMoreReviews) return;
 
-  _isLoadingMoreReviews = true;
+    _isLoadingMoreReviews = true;
+    emit(state.copyWith(isLoadingMoreReviews: true));
 
-  final nextPage = _reviewsPage + 1;
+    final nextPage = _reviewsPage + 1;
 
-  final result = await _repo.getReviews(
-    type: state.type!,
-    id: state.details!.id,
-    page: nextPage,
-  );
+    final result = await _repo.getReviews(
+      type: state.type!,
+      id: state.details!.id,
+      page: nextPage,
+    );
 
-  if (result.isSuccess) {
-    final newReviews = result.data?.results ?? [];
+    if (result.isSuccess) {
+      final newReviews = result.data?.results ?? [];
 
-    _reviewsPage = nextPage;
+      _reviewsPage = nextPage;
 
-    if (newReviews.isEmpty) {
-      _hasMoreReviews = false;
+      if (newReviews.isEmpty) {
+        _hasMoreReviews = false;
+      }
+
+      emit(
+        state.copyWith(
+          reviews: [...?state.reviews, ...newReviews],
+          isLoadingMoreReviews: false,
+          hasMoreReviews: _hasMoreReviews,
+        ),
+      );
+    } else {
+      emit(state.copyWith(isLoadingMoreReviews: false));
     }
 
-    emit(
-      state.copyWith(
-        reviews: [...?state.reviews, ...newReviews],
-      ),
-    );
+    _isLoadingMoreReviews = false;
   }
-
-  _isLoadingMoreReviews = false;
-}
 }

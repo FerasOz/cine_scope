@@ -9,6 +9,8 @@ class MediaDetailsState {
   final MediaDetailsModel? details;
   final List<ReviewModel>? reviews;
   final List<CastModel>? casts;
+  final bool isLoadingMoreReviews;
+  final bool hasMoreReviews;
   final int? id;
   final MediaType? type;
   final String? error;
@@ -18,6 +20,8 @@ class MediaDetailsState {
     this.details,
     this.reviews,
     this.casts,
+    this.isLoadingMoreReviews = false,
+    this.hasMoreReviews = true,
     this.id,
     this.type,
     this.error,
@@ -28,6 +32,8 @@ class MediaDetailsState {
     MediaDetailsModel? details,
     List<ReviewModel>? reviews,
     List<CastModel>? casts,
+    bool? isLoadingMoreReviews,
+    bool? hasMoreReviews,
     int? id,
     MediaType? type,
     String? error,
@@ -37,6 +43,8 @@ class MediaDetailsState {
       details: details ?? this.details,
       reviews: reviews ?? this.reviews,
       casts: casts ?? this.casts,
+      isLoadingMoreReviews: isLoadingMoreReviews ?? this.isLoadingMoreReviews,
+      hasMoreReviews: hasMoreReviews ?? this.hasMoreReviews,
       id: id ?? this.id,
       type: type ?? this.type,
       error: error ?? this.error,
