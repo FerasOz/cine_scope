@@ -14,6 +14,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<HomeCubit>();
+
     return Scaffold(
       backgroundColor: ColorsManager.primary,
       body: SafeArea(
@@ -48,18 +50,21 @@ class HomeScreen extends StatelessWidget {
                       title: "Trending Now",
                       media: state.trending,
                       status: state.trendingStatus,
+                      onRetry: cubit.loadHomeData,
                     ),
 
                     MovieSection(
                       title: "Popular",
                       media: state.popular,
                       status: state.popularStatus,
+                      onRetry: cubit.loadHomeData,
                     ),
 
                     MovieSection(
                       title: "Top Rated",
                       media: state.topRated,
                       status: state.topRatedStatus,
+                      onRetry: cubit.loadHomeData,
                     ),
 
                     verticalSpace(24),

@@ -7,9 +7,11 @@ import 'package:cine_scope/core/routing/routes.dart';
 import 'package:cine_scope/features/home/data/models/media_model.dart';
 
 class MediaItemWidget extends StatelessWidget {
-  MediaModel item;
+  final MediaModel item;
 
-  MediaItemWidget({super.key, required this.item});
+  const MediaItemWidget({super.key, required this.item});
+
+  String get _heroTag => 'home_list_${item.type.name}_${item.id}';
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,12 @@ class MediaItemWidget extends StatelessWidget {
         Navigator.pushNamed(
           context,
           Routes.detailsScreen,
-          arguments: {"id": item.id, "type": item.type},
+          arguments: {
+            "id": item.id,
+            "type": item.type,
+            "heroImagePath": item.posterPath,
+            "heroTag": _heroTag,
+          },
         );
       },
       child: Container(
@@ -38,13 +45,16 @@ class MediaItemWidget extends StatelessWidget {
           child: Stack(
             children: [
               Positioned.fill(
-                child: CustomCachedImage(
-                  imageUrl: item.posterPath != null
-                      ? "$imageBaseUrl${item.posterPath}"
-                      : "",
-                  fit: BoxFit.cover,
-                  width: 150.w,
-                  height: double.infinity,
+                child: Hero(
+                  tag: _heroTag,
+                  child: CustomCachedImage(
+                    imageUrl: item.posterPath != null
+                        ? "$imageBaseUrl${item.posterPath}"
+                        : "",
+                    fit: BoxFit.cover,
+                    width: 150.w,
+                    height: double.infinity,
+                  ),
                 ),
               ),
               Positioned(

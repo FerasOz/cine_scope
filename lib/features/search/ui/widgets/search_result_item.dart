@@ -33,29 +33,44 @@ class SearchResultItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final heroTag = 'search_${type.name}_$movieId';
+
     return GestureDetector(
       onTap: () {
         context.read<SearchCubit>().onSearchSubmitted(title);
         Navigator.pushNamed(
           context,
           Routes.detailsScreen,
-          arguments: {"id": movieId, "type": type},
+          arguments: {
+            "id": movieId,
+            "type": type,
+            "heroImagePath": imageUrl,
+            "heroTag": heroTag,
+          },
         );
       },
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
         child: Row(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12.r),
-              child: imageUrl.isNotEmpty
-                  ? CustomCachedImage(imageUrl: "$imageBaseUrl$imageUrl", width: 80.w, height: 110.h, fit: BoxFit.cover)
-                  : Container(
-                      width: 80.w,
-                      height: 110.h,
-                      color: Colors.grey.shade800,
-                      child: const Icon(Icons.movie, color: Colors.white),
-                    ),
+            Hero(
+              tag: heroTag,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12.r),
+                child: imageUrl.isNotEmpty
+                    ? CustomCachedImage(
+                        imageUrl: "$imageBaseUrl$imageUrl",
+                        width: 80.w,
+                        height: 110.h,
+                        fit: BoxFit.cover,
+                      )
+                    : Container(
+                        width: 80.w,
+                        height: 110.h,
+                        color: Colors.grey.shade800,
+                        child: const Icon(Icons.movie, color: Colors.white),
+                      ),
+              ),
             ),
             horizontalSpace(12),
             Expanded(

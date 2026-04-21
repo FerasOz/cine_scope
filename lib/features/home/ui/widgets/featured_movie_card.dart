@@ -14,6 +14,10 @@ class FeaturedMovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final heroTag = media == null
+        ? ''
+        : 'featured_${media!.type.name}_${media!.id}';
+
     if (media == null) {
       return Shimmer.fromColors(
         baseColor: Colors.grey.shade800,
@@ -34,7 +38,12 @@ class FeaturedMovieCard extends StatelessWidget {
         Navigator.pushNamed(
           context,
           Routes.detailsScreen,
-          arguments: {"id": media!.id, "type": media!.type},
+          arguments: {
+            "id": media!.id,
+            "type": media!.type,
+            "heroImagePath": media!.backdropPath,
+            "heroTag": heroTag,
+          },
         );
       },
       child: Padding(
@@ -43,13 +52,16 @@ class FeaturedMovieCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.r),
           child: Stack(
             children: [
-              CustomCachedImage(
-                imageUrl: media!.backdropPath != null
-                    ? "$imageBaseUrl${media!.backdropPath}"
-                    : "",
-                height: 240.h,
-                width: double.infinity,
-                fit: BoxFit.cover,
+              Hero(
+                tag: heroTag,
+                child: CustomCachedImage(
+                  imageUrl: media!.backdropPath != null
+                      ? "$imageBaseUrl${media!.backdropPath}"
+                      : "",
+                  height: 240.h,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
               ),
               Container(
                 height: 240.h,
