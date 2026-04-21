@@ -3,6 +3,7 @@ import 'package:cine_scope/core/styles/colors.dart';
 import 'package:cine_scope/features/auth/cubit/auth_cubit.dart';
 import 'package:cine_scope/features/auth/cubit/auth_state.dart';
 import 'package:cine_scope/features/auth/ui/widgets/auth_input_field.dart';
+import 'package:cine_scope/features/auth/ui/widgets/auth_message_banner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -92,13 +93,7 @@ class RegisterFormCard extends StatelessWidget {
           ),
           if (state.error != null) ...[
             verticalSpace(16),
-            Text(
-              state.error!,
-              style: TextStyle(
-                color: Colors.redAccent,
-                fontSize: 14.sp,
-              ),
-            ),
+            AuthMessageBanner(message: state.error!),
           ],
         ],
       ),
