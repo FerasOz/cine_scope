@@ -11,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MovieSection extends StatelessWidget {
   final String title;
+  final String subtitle;
   final List<MediaModel>? media;
   final RequestsStatus status;
   final VoidCallback? onRetry;
@@ -18,6 +19,7 @@ class MovieSection extends StatelessWidget {
   const MovieSection({
     super.key,
     required this.title,
+    required this.subtitle,
     required this.media,
     required this.status,
     this.onRetry,
@@ -29,19 +31,71 @@ class MovieSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: Text(
-            title,
-            style: TextStyle(
-              color: ColorsManager.textPrimary,
-              fontSize: 18.sp,
-              fontWeight: FontWeight.w600,
-            ),
+          padding: EdgeInsets.symmetric(horizontal: 18.w),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        color: ColorsManager.textPrimary,
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: -0.4,
+                      ),
+                    ),
+                    verticalSpace(4),
+                    Text(
+                      subtitle,
+                      style: TextStyle(
+                        color: ColorsManager.textSecondary,
+                        fontSize: 12.sp,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 10.w,
+                  vertical: 8.h,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.05),
+                  borderRadius: BorderRadius.circular(999.r),
+                  border: Border.all(color: Colors.white10),
+                ),
+                child: Row(
+                  children: [
+                    Text(
+                      '${media?.length ?? 0}',
+                      style: TextStyle(
+                        color: Colors.orange,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    horizontalSpace(6),
+                    Text(
+                      'Titles',
+                      style: TextStyle(
+                        color: ColorsManager.textSecondary,
+                        fontSize: 11.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
-        verticalSpace(12),
-        SizedBox(height: 180.h, child: _buildContent()),
-        verticalSpace(24),
+        verticalSpace(14),
+        SizedBox(height: 220.h, child: _buildContent()),
+        verticalSpace(28),
       ],
     );
   }

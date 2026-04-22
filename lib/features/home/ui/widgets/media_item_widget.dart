@@ -1,4 +1,6 @@
 import 'package:cine_scope/core/helpers/constants.dart';
+import 'package:cine_scope/core/helpers/spacing.dart';
+import 'package:cine_scope/core/styles/colors.dart';
 import 'package:cine_scope/core/widgets/custom_cached_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,19 +31,19 @@ class MediaItemWidget extends StatelessWidget {
         );
       },
       child: Container(
-        width: 150.w,
+        width: 164.w,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16.r),
-          boxShadow: [
+          borderRadius: BorderRadius.circular(24.r),
+          boxShadow: const [
             BoxShadow(
-              color: Colors.black.withOpacity(.4),
-              blurRadius: 10,
-              offset: const Offset(0, 6),
+              color: Color(0x33000000),
+              blurRadius: 16,
+              offset: Offset(0, 10),
             ),
           ],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(16.r),
+          borderRadius: BorderRadius.circular(24.r),
           child: Stack(
             children: [
               Positioned.fill(
@@ -52,8 +54,51 @@ class MediaItemWidget extends StatelessWidget {
                         ? "$imageBaseUrl${item.posterPath}"
                         : "",
                     fit: BoxFit.cover,
-                    width: 150.w,
+                    width: 164.w,
                     height: double.infinity,
+                  ),
+                ),
+              ),
+              Positioned.fill(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.transparent,
+                        Colors.transparent,
+                        Colors.black.withValues(alpha: 0.96),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 12.h,
+                right: 12.w,
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 8.w,
+                    vertical: 6.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.45),
+                    borderRadius: BorderRadius.circular(999.r),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.star_rounded, color: Colors.amber, size: 14),
+                      horizontalSpace(4),
+                      Text(
+                        item.rating.toStringAsFixed(1),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 11.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -62,41 +107,53 @@ class MediaItemWidget extends StatelessWidget {
                 left: 0,
                 right: 0,
                 child: Container(
-                  padding: EdgeInsets.all(10.w),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                      colors: [
-                        Colors.black.withOpacity(.9),
-                        Colors.black.withOpacity(.0),
-                      ],
-                    ),
-                  ),
+                  padding: EdgeInsets.fromLTRB(12.w, 26.h, 12.w, 12.h),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
                         item.title,
-                        maxLines: 1,
+                        maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w700,
+                          height: 1.18,
                         ),
                       ),
-                      SizedBox(height: 4.h),
+                      verticalSpace(8),
                       Row(
                         children: [
-                          const Icon(Icons.star, color: Colors.amber, size: 14),
-                          SizedBox(width: 4.w),
-                          Text(
-                            item.rating.toStringAsFixed(1),
-                            style: TextStyle(
-                              color: Colors.white70,
-                              fontSize: 12.sp,
+                          if (item.year.isNotEmpty)
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 8.w,
+                                vertical: 5.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.08),
+                                borderRadius: BorderRadius.circular(999.r),
+                              ),
+                              child: Text(
+                                item.year,
+                                style: TextStyle(
+                                  color: ColorsManager.textSecondary,
+                                  fontSize: 11.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          if (item.year.isNotEmpty) horizontalSpace(6),
+                          Expanded(
+                            child: Text(
+                              item.type == MediaType.movie ? 'Movie' : 'Series',
+                              style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 11.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                         ],

@@ -35,39 +35,35 @@ class HomeScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const HomeHeader(),
-                    verticalSpace(24),
-
-                    /// Featured
+                    verticalSpace(28),
                     FeaturedMovieCard(
                       media: state.trending.isNotEmpty
                           ? state.trending.first
                           : null,
                     ),
-
-                    verticalSpace(32),
-
+                    verticalSpace(34),
                     MovieSection(
                       title: "Trending Now",
+                      subtitle: "Fresh picks people are watching today",
                       media: state.trending,
                       status: state.trendingStatus,
                       onRetry: cubit.loadHomeData,
                     ),
-
                     MovieSection(
                       title: "Popular",
+                      subtitle: "Blockbusters and fan favorites",
                       media: state.popular,
                       status: state.popularStatus,
                       onRetry: cubit.loadHomeData,
                     ),
-
                     MovieSection(
                       title: "Top Rated",
+                      subtitle: "Critically loved stories worth your time",
                       media: state.topRated,
                       status: state.topRatedStatus,
                       onRetry: cubit.loadHomeData,
                     ),
-
-                    verticalSpace(24),
+                    verticalSpace(28),
                   ],
                 ),
               ),
